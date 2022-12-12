@@ -1,20 +1,21 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class UI extends JFrame{
+public class UI extends JFrame implements ActionListener {
+    JButton button1, button2;
     public UI(){
         //Adding background image to the frame
-        JLabel background = new JLabel(new ImageIcon("UOW.jpg"));
-        background.setBounds(0,0,1440,775);
+        JLabel background = new JLabel(new ImageIcon("BackGroundIMG.jpg"));
+        background.setBounds(0,0,1440,772);
 
         //adding welcome letter to the JFrame
         JLabel welcomeLetter = new JLabel("Welcome to the Westminster Skin Consultation Manager");
-        welcomeLetter.setBounds(170, 75, 1150,50);
-        welcomeLetter.setForeground(Color.YELLOW);
-        welcomeLetter.setFont(new Font("Calibri", Font.BOLD,40));
-        welcomeLetter.setBackground(Color.BLACK);
-        welcomeLetter.setOpaque(true);
+        welcomeLetter.setBounds(80, 75, 1300,50);
+        welcomeLetter.setForeground(Color.BLACK);
+        welcomeLetter.setFont(new Font("Calibri", Font.BOLD,45));
         background.add(welcomeLetter);
 
         //Creating border with color yellow
@@ -22,13 +23,24 @@ public class UI extends JFrame{
         background.setBorder(border);
 
         //Adding buttons to the login page
-        JButton button1 = new JButton("Show List Of Doctors");
-        button1.setBounds(300,250,800,100);
+        button1 = new JButton("Show List Of Doctors");
+        button1.setBounds(300,270,800,130);
+        button1.setIcon(new ImageIcon("icon1.png"));
+        button1.setBackground(Color.BLACK);
+        button1.setFont(new Font("Comic Sans", Font.ITALIC,25));
         background.add(button1);
 
-        JButton button2 = new JButton("Consultation");
-        button2.setBounds(300,450,800,100);
+        button2 = new JButton("Consultation");
+        button2.setBounds(300,450,800,130);
+        button2.setIcon(new ImageIcon("icon2.png"));
+        button2.setBackground(Color.BLACK);
+        button2.setFont(new Font("Comic Sans", Font.ITALIC,25));
         background.add(button2);
+
+        JLabel createdWord = new JLabel("Created by Banula Perera");
+        createdWord.setBounds(620,720, 200,50);
+        createdWord.setFont(new Font("MV Boli", Font.ITALIC,15));
+        background.add(createdWord);
 
         this.setTitle("Westminster Skin Consultation Manager");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,5 +49,14 @@ public class UI extends JFrame{
         this.setLayout(null);
         this.setVisible(true);
         this.add(background);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == button1){
+
+        } else if (e.getSource() == button2) {
+
+        }
     }
 }
