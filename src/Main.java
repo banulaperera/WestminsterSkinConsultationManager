@@ -11,7 +11,7 @@ public class Main {
         west.LoadFromFile(WestminsterSkinConsultationManager.list);
 
         System.out.println("\n                                      Welcome to Westminster Skin Consultation Manager :)");
-        new UI();
+        new HomePageGUI();
 
 //        do{
 //            System.out.println("======================================================================================================================");
@@ -33,7 +33,7 @@ public class Main {
 //                case "D" -> west.DeleteDoc();
 //                case "P" -> west.PrintListOfDoc();
 //                case "S" -> west.SaveInFile();
-//                case "G" -> UI.Show();
+//                case "G" -> HomePageGUI.Show();
 //                case "Q" -> ans = false;
 //            }
 //
