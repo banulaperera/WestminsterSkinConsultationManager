@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,7 +7,7 @@ import java.awt.event.ActionListener;
 public class DoctorListGUI extends JFrame implements ActionListener {
     private JButton backToHomeBtn;
     DoctorListGUI(){
-        final JPanel rightSidePanel, bottomPanel, leftSidePanel, middlePanel;
+        final JPanel rightSidePanel, bottomPanel, leftSidePanel;
         final JLabel rightLabel, leftLabel, bottomLabel;
 
         //Right Panel
@@ -41,7 +42,7 @@ public class DoctorListGUI extends JFrame implements ActionListener {
         this.add(UpperPanel());
         this.add(bottomPanel);
         this.add(leftSidePanel);
-        this.add(MiddlePanel());
+        this.add(ScrollPane());
     }
 
     private JPanel UpperPanel(){
@@ -70,12 +71,44 @@ public class DoctorListGUI extends JFrame implements ActionListener {
         return upperPanel;
     }
 
-    private JPanel MiddlePanel(){
-        final JPanel middlePanel;
+    private JScrollPane ScrollPane(){
+        final JScrollPane scrollPane;
 
-        middlePanel = new JPanel();
-        middlePanel.setBounds(150, 120, 1160,670);
-        return middlePanel;
+        JTable table = new JTable();
+        Object[] columns = {"Medical License Number", "First Name", "Last Name", "Date Of Birth", "Gender", "Mobile Number", "Specialization"};
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.setColumnIdentifiers(columns);
+        table.setModel(model);
+
+        table.setBackground(Color.WHITE);
+        table.setForeground(Color.BLACK);
+        table.setSelectionBackground(new Color(224, 213, 247));
+        table.setSelectionForeground(Color.BLACK);
+        table.setGridColor(Color.BLACK);
+        table.setFont(new Font("Calibri", Font.PLAIN,12));
+        table.setRowHeight(50);
+        table.getTableHeader().setFont(new Font("Calibri", Font.BOLD,13));
+        table.getTableHeader().setPreferredSize(new Dimension(90,60));
+
+        Object[] row = new Object[7];
+
+        for (Doctor doc:
+                WestminsterSkinConsultationManager.list){
+            row[0] = doc.getMedicalLicenseNumber();
+            row[1] = doc.getName();
+            row[2] = doc.getSurname();
+            row[3] = doc.getdOB();
+            row[4] = doc.getGender();
+            row[5] = doc.getMobileNumber();
+            row[6] = doc.getSpecialization();
+
+            model.addRow(row);
+        }
+
+        scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(150, 120, 1140,583);
+        return scrollPane;
     }
 
     @Override
