@@ -46,7 +46,7 @@ public class HomePageGUI extends JFrame implements ActionListener {
 
         this.setTitle("Westminster Skin Consultation Manager");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1500, 800);
+        this.setSize(1440, 800);
         this.setResizable(false);
         this.setLayout(null);
         this.setVisible(true);
