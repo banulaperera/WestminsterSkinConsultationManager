@@ -13,10 +13,15 @@ public class HomePageGUI extends JFrame implements ActionListener {
 
         //Adding welcome letter to the JFrame
         JLabel welcomeLetter = new JLabel("Welcome to the Westminster Skin Consultation Manager");
-        welcomeLetter.setBounds(80, 85, 1300,50);
+        welcomeLetter.setBounds(80, 115, 1300,50);
         welcomeLetter.setForeground(Color.BLACK);
         welcomeLetter.setFont(new Font("Calibri", Font.BOLD,45));
         background.add(welcomeLetter);
+
+        JLabel icon = new JLabel();
+        icon.setIcon(new ImageIcon("Health.png"));
+        icon.setBounds(650, 20, 100,100);
+        background.add(icon);
 
         //Creating border with color yellow
         Border border = BorderFactory.createLineBorder(Color.WHITE,5);

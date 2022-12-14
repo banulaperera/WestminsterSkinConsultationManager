@@ -1,35 +1,38 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class DoctorListGUI extends JFrame implements ActionListener {
+public class DoctorListGUI extends JFrame {
     private JButton backToHomeBtn;
     DoctorListGUI(){
         final JPanel rightSidePanel, bottomPanel, leftSidePanel;
         final JLabel rightLabel, leftLabel, bottomLabel;
 
-        //Right Panel
-        rightLabel = new JLabel(new ImageIcon("r.jpg"));
-        rightLabel.setBounds(0,0, 150, 580);
-        rightSidePanel = new JPanel();
-        rightSidePanel.setBounds(0,120, 150, 580);
-        rightSidePanel.add(rightLabel);
+        //Left Panel
+        leftLabel = new JLabel(new ImageIcon("r.jpg"));
+        leftLabel.setBounds(0,0, 150, 580);
+        leftSidePanel = new JPanel();
+        leftSidePanel.setBounds(0,120, 70, 580);
+        leftSidePanel.add(leftLabel);
 
         //Bottom panel
+        JLabel createdWord = new JLabel("Created by Banula Perera");
+        createdWord.setBounds(650,30, 200,20);
+        createdWord.setFont(new Font("MV Boli", Font.ITALIC,15));
+
         bottomLabel = new JLabel(new ImageIcon("b.jpg"));
         bottomLabel.setBounds(0, 0,1440, 75);
         bottomPanel = new JPanel();
         bottomPanel.setBounds(0, 700, 1440,75);
+        bottomLabel.add(createdWord);
         bottomPanel.add(bottomLabel);
 
-        //Left panel
-        leftLabel = new JLabel(new ImageIcon("l.jpg"));
-        leftLabel.setBounds(0, 0, 150, 580);
-        leftSidePanel = new JPanel();
-        leftSidePanel.setBounds(1290,120, 150, 580);
-        leftSidePanel.add(leftLabel);
+        //Right panel
+        rightLabel = new JLabel(new ImageIcon("l.jpg"));
+        rightLabel.setBounds(0, 0, 150, 580);
+        rightSidePanel = new JPanel();
+        rightSidePanel.setBounds(1370,120, 70, 580);
+        rightSidePanel.add(rightLabel);
 
         //Code for the Frame
         this.setTitle("Westminster Skin Consultation Manager");
@@ -38,10 +41,10 @@ public class DoctorListGUI extends JFrame implements ActionListener {
         this.setResizable(false);
         this.setLayout(null);
         this.setVisible(true);
-        this.add(rightSidePanel);
+        this.add(leftSidePanel);
         this.add(UpperPanel());
         this.add(bottomPanel);
-        this.add(leftSidePanel);
+        this.add(rightSidePanel);
         this.add(ScrollPane());
     }
 
@@ -50,12 +53,19 @@ public class DoctorListGUI extends JFrame implements ActionListener {
         final JLabel upperLabel;
 
         backToHomeBtn = new JButton();
-        backToHomeBtn.setBounds(1190, 35, 100, 50);
+        backToHomeBtn.setBounds(1270, 35, 100, 50);
         backToHomeBtn.setIcon(new ImageIcon("HomeIcon.png"));
-        backToHomeBtn.addActionListener(this);
+        backToHomeBtn.addActionListener(e -> {
+            if (e.getSource() == backToHomeBtn){
+                backToHomeBtn.setBackground(new Color(224, 213, 247));
+                this.dispose();
+                new HomePageGUI();
+            }
+        });
 
         JLabel label = new JLabel("Doctor Information");
-        label.setBounds(150, 35, 350, 50);
+        label.setIcon(new ImageIcon("DoctorIcon.png"));
+        label.setBounds(68, 35, 450, 70);
         label.setForeground(Color.BLACK);
         label.setFont(new Font("MV Boli", Font.BOLD,30));
 
@@ -74,7 +84,11 @@ public class DoctorListGUI extends JFrame implements ActionListener {
     private JScrollPane ScrollPane(){
         final JScrollPane scrollPane;
 
-        JTable table = new JTable();
+        JTable table = new JTable(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
         Object[] columns = {"Medical License Number", "First Name", "Last Name", "Date Of Birth", "Gender", "Mobile Number", "Specialization"};
         DefaultTableModel model = new DefaultTableModel();
 
@@ -86,9 +100,9 @@ public class DoctorListGUI extends JFrame implements ActionListener {
         table.setSelectionBackground(new Color(224, 213, 247));
         table.setSelectionForeground(Color.BLACK);
         table.setGridColor(Color.BLACK);
-        table.setFont(new Font("Calibri", Font.PLAIN,12));
+        table.setFont(new Font("Calibri", Font.PLAIN,13));
         table.setRowHeight(50);
-        table.getTableHeader().setFont(new Font("Calibri", Font.BOLD,13));
+        table.getTableHeader().setFont(new Font("Calibri", Font.BOLD,14));
         table.getTableHeader().setPreferredSize(new Dimension(90,60));
 
         Object[] row = new Object[7];
@@ -98,7 +112,7 @@ public class DoctorListGUI extends JFrame implements ActionListener {
             row[0] = doc.getMedicalLicenseNumber();
             row[1] = doc.getName();
             row[2] = doc.getSurname();
-            row[3] = doc.getdOB();
+            row[3] = WestminsterSkinConsultationManager.dateFormat.format(doc.getdOB());
             row[4] = doc.getGender();
             row[5] = doc.getMobileNumber();
             row[6] = doc.getSpecialization();
@@ -107,15 +121,7 @@ public class DoctorListGUI extends JFrame implements ActionListener {
         }
 
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(150, 120, 1140,583);
+        scrollPane.setBounds(70, 120, 1300,583);
         return scrollPane;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == backToHomeBtn){
-            this.dispose();
-            new HomePageGUI();
-        }
     }
 }
