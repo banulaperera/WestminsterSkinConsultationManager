@@ -14,15 +14,15 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
     @Override
     public void AddNewDoc() {
         String choice = "";
-        System.out.println("======================================================================================================================");
-        System.out.println("|" + "                                             Add new doctor                                                        " + "|");
-        System.out.println("======================================================================================================================");
         do {
             try{
                 int count = list.size();
 
                 //Check whether the list contains total of 10 doctors
                 if (!(count == 10)){
+                    System.out.println("======================================================================================================================");
+                    System.out.println("|" + "                                             Add new doctor                                                        " + "|");
+                    System.out.println("======================================================================================================================");
                     System.out.println("Enter the name of the doctor:");
                     String docName = scanner.next();
 
@@ -79,6 +79,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
                 }
                 else {
                     System.out.println("Can't add doctors, Your center is full!");
+                    break;
                 }
 
             }catch (ParseException e){

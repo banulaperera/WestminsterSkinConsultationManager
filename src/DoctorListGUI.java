@@ -64,10 +64,10 @@ public class DoctorListGUI extends JFrame {
             }
         });
 
-        JButton backToConsoleBtn = new JButton();
-        backToConsoleBtn.setBounds(1100, 35, 150, 50);
-        backToConsoleBtn.setText("Back To Console");
-        backToConsoleBtn.setFont(new Font("Comic Sans", Font.ITALIC,15));
+        JButton sortBtn = new JButton();
+        sortBtn.setBounds(1100, 35, 150, 50);
+        sortBtn.setText("Sort by Surname");
+        sortBtn.setFont(new Font("Comic Sans", Font.ITALIC,15));
 
         JLabel label = new JLabel("Doctor Information");
         label.setIcon(new ImageIcon("DoctorIcon.png"));
@@ -83,7 +83,7 @@ public class DoctorListGUI extends JFrame {
         upperPanel.add(upperLabel);
         upperLabel.add(label);
         upperLabel.add(backToHomeBtn);
-        upperLabel.add(backToConsoleBtn);
+        upperLabel.add(sortBtn);
 
         return upperPanel;
     }
@@ -108,12 +108,11 @@ public class DoctorListGUI extends JFrame {
         table.setSelectionForeground(Color.BLACK);
         table.setGridColor(Color.BLACK);
         table.setFont(new Font("Calibri", Font.PLAIN,13));
-        table.setRowHeight(50);
+        table.setRowHeight(60);
         table.getTableHeader().setFont(new Font("Calibri", Font.BOLD,14));
-        table.getTableHeader().setPreferredSize(new Dimension(90,60));
+        table.getTableHeader().setPreferredSize(new Dimension(90,70));
 
         Object[] row = new Object[7];
-
         for (Doctor doc:
                 WestminsterSkinConsultationManager.list){
             row[0] = doc.getMedicalLicenseNumber();
