@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class DoctorListGUI extends JFrame {
     private JButton backToHomeBtn;
+
     DoctorListGUI(){
         final JPanel rightSidePanel, bottomPanel, leftSidePanel;
         final JLabel rightLabel, leftLabel, bottomLabel;
@@ -63,6 +64,11 @@ public class DoctorListGUI extends JFrame {
             }
         });
 
+        JButton backToConsoleBtn = new JButton();
+        backToConsoleBtn.setBounds(1100, 35, 150, 50);
+        backToConsoleBtn.setText("Back To Console");
+        backToConsoleBtn.setFont(new Font("Comic Sans", Font.ITALIC,15));
+
         JLabel label = new JLabel("Doctor Information");
         label.setIcon(new ImageIcon("DoctorIcon.png"));
         label.setBounds(68, 35, 450, 70);
@@ -77,6 +83,7 @@ public class DoctorListGUI extends JFrame {
         upperPanel.add(upperLabel);
         upperLabel.add(label);
         upperLabel.add(backToHomeBtn);
+        upperLabel.add(backToConsoleBtn);
 
         return upperPanel;
     }

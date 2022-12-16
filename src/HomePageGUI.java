@@ -1,11 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class HomePageGUI extends JFrame implements ActionListener {
-    private final JButton button1, button2;
+public class HomePageGUI extends JFrame {
+    private final JButton button1;
+
     public HomePageGUI(){
         //Adding background image to the frame
         JLabel background = new JLabel(new ImageIcon("BackGroundIMG.jpg"));
@@ -32,16 +31,24 @@ public class HomePageGUI extends JFrame implements ActionListener {
         button1.setBounds(300,270,800,130);
         button1.setIcon(new ImageIcon("icon1.png"));
         button1.setFont(new Font("Comic Sans", Font.ITALIC,25));
-        button1.addActionListener(this); //Call action listener to the button
-        background.add(button1);
+        button1.addActionListener(e -> {
+            if (e.getSource() == button1){
+                dispose();
+                new DoctorListGUI();
+            }
+        });
+                background.add(button1);
 
         //Adding second button to the frame
-        button2 = new JButton("Consultation");
+        JButton button2 = new JButton("Consultation");
         button2.setBounds(300,450,800,130);
         button2.setIcon(new ImageIcon("icon2.png"));
         button2.setFont(new Font("Comic Sans", Font.ITALIC,25));
-        button2.addActionListener(this); //Call action listener to the button
-        background.add(button2);
+        button2.addActionListener(e -> {
+            dispose();
+            new ConsultationGUI();
+        });
+                background.add(button2);
 
         //Label
         JLabel createdWord = new JLabel("Created by Banula Perera");
@@ -56,16 +63,5 @@ public class HomePageGUI extends JFrame implements ActionListener {
         this.setLayout(null);
         this.setVisible(true);
         this.add(background);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == button1){
-            this.dispose();
-            new DoctorListGUI();
-        } else if (e.getSource() == button2) {
-            this.dispose();
-            new ConsultationGUI();
-        }
     }
 }
