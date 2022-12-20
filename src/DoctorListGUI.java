@@ -5,35 +5,6 @@ public class DoctorListGUI extends JFrame {
     private JButton backToHomeBtn;
 
     DoctorListGUI(){
-        final JPanel rightSidePanel, bottomPanel, leftSidePanel;
-        final JLabel rightLabel, leftLabel, bottomLabel;
-
-        //Left Panel
-        leftLabel = new JLabel(new ImageIcon("r.jpg"));
-        leftLabel.setBounds(0,0, 150, 580);
-        leftSidePanel = new JPanel();
-        leftSidePanel.setBounds(0,120, 70, 580);
-        leftSidePanel.add(leftLabel);
-
-        //Bottom panel
-        JLabel createdWord = new JLabel("Created by Banula Perera");
-        createdWord.setBounds(650,30, 200,20);
-        createdWord.setFont(new Font("MV Boli", Font.ITALIC,15));
-
-        bottomLabel = new JLabel(new ImageIcon("b.jpg"));
-        bottomLabel.setBounds(0, 0,1440, 75);
-        bottomPanel = new JPanel();
-        bottomPanel.setBounds(0, 700, 1440,75);
-        bottomLabel.add(createdWord);
-        bottomPanel.add(bottomLabel);
-
-        //Right panel
-        rightLabel = new JLabel(new ImageIcon("l.jpg"));
-        rightLabel.setBounds(0, 0, 150, 580);
-        rightSidePanel = new JPanel();
-        rightSidePanel.setBounds(1370,120, 70, 580);
-        rightSidePanel.add(rightLabel);
-
         //Code for the Frame
         this.setTitle("Westminster Skin Consultation Manager");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,10 +12,10 @@ public class DoctorListGUI extends JFrame {
         this.setResizable(false);
         this.setLayout(null);
         this.setVisible(true);
-        this.add(leftSidePanel);
+        this.add(LeftPanel());
         this.add(UpperPanel());
-        this.add(bottomPanel);
-        this.add(rightSidePanel);
+        this.add(BottomPanel());
+        this.add(RightPanel());
         this.add(ScrollPane());
     }
 
@@ -78,6 +49,50 @@ public class DoctorListGUI extends JFrame {
         upperLabel.add(label);
         upperLabel.add(backToHomeBtn);
         return upperPanel;
+    }
+
+    private JPanel RightPanel(){
+        JPanel rightSidePanel;
+        JLabel rightLabel;
+
+        rightLabel = new JLabel(new ImageIcon("l.jpg"));
+        rightLabel.setBounds(0, 0, 150, 580);
+        rightSidePanel = new JPanel();
+        rightSidePanel.setBounds(1370,120, 70, 580);
+        rightSidePanel.add(rightLabel);
+
+        return rightSidePanel;
+    }
+
+    private JPanel LeftPanel(){
+        JPanel leftSidePanel;
+        JLabel leftLabel;
+
+        leftLabel = new JLabel(new ImageIcon("r.jpg"));
+        leftLabel.setBounds(0,0, 150, 580);
+        leftSidePanel = new JPanel();
+        leftSidePanel.setBounds(0,120, 70, 580);
+        leftSidePanel.add(leftLabel);
+
+        return leftSidePanel;
+    }
+
+    private JPanel BottomPanel(){
+        JPanel bottomPanel;
+        JLabel bottomLabel;
+
+        JLabel createdWord = new JLabel("Created by Banula Perera");
+        createdWord.setBounds(650,30, 200,20);
+        createdWord.setFont(new Font("MV Boli", Font.ITALIC,15));
+
+        bottomLabel = new JLabel(new ImageIcon("b.jpg"));
+        bottomLabel.setBounds(0, 0,1440, 75);
+        bottomPanel = new JPanel();
+        bottomPanel.setBounds(0, 700, 1440,75);
+        bottomLabel.add(createdWord);
+        bottomPanel.add(bottomLabel);
+
+        return bottomPanel;
     }
 
     private JScrollPane ScrollPane(){

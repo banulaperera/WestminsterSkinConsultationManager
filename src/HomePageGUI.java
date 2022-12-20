@@ -12,15 +12,20 @@ public class HomePageGUI extends JFrame {
 
         //Adding welcome letter to the JFrame
         JLabel welcomeLetter = new JLabel("Welcome to the Westminster Skin Consultation Manager");
-        welcomeLetter.setBounds(80, 115, 1300,50);
+        welcomeLetter.setBounds(80, 125, 1300,50);
         welcomeLetter.setForeground(Color.BLACK);
         welcomeLetter.setFont(new Font("Calibri", Font.BOLD,45));
         background.add(welcomeLetter);
 
-        JLabel icon = new JLabel();
-        icon.setIcon(new ImageIcon("Health.png"));
-        icon.setBounds(650, 20, 100,100);
-        background.add(icon);
+        JLabel icon1 = new JLabel();
+        icon1.setIcon(new ImageIcon("uniLogo.png"));
+        icon1.setBounds(590, 10, 100,100);
+        background.add(icon1);
+
+        JLabel icon2 = new JLabel();
+        icon2.setIcon(new ImageIcon("iitLogo.png"));
+        icon2.setBounds(710, 10, 100,100);
+        background.add(icon2);
 
         //Creating border with color yellow
         Border border = BorderFactory.createLineBorder(Color.WHITE,5);
