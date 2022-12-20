@@ -19,6 +19,10 @@ public class DoctorListGUI extends JFrame {
         this.add(ScrollPane());
     }
 
+    /**
+     * Codes that contains the upper panel
+     * @return JPanel
+     */
     private JPanel UpperPanel(){
         final JPanel upperPanel;
         final JLabel upperLabel;
@@ -51,6 +55,10 @@ public class DoctorListGUI extends JFrame {
         return upperPanel;
     }
 
+    /**
+     * Codes that contains the right panel
+     * @return JPanel
+     */
     private JPanel RightPanel(){
         JPanel rightSidePanel;
         JLabel rightLabel;
@@ -64,6 +72,10 @@ public class DoctorListGUI extends JFrame {
         return rightSidePanel;
     }
 
+    /**
+     * Codes that contain the Left panel
+     * @return JPanel
+     */
     private JPanel LeftPanel(){
         JPanel leftSidePanel;
         JLabel leftLabel;
@@ -77,6 +89,10 @@ public class DoctorListGUI extends JFrame {
         return leftSidePanel;
     }
 
+    /**
+     * Codes that contain bottom panel
+     * @return JPanel
+     */
     private JPanel BottomPanel(){
         JPanel bottomPanel;
         JLabel bottomLabel;
@@ -95,6 +111,10 @@ public class DoctorListGUI extends JFrame {
         return bottomPanel;
     }
 
+    /**
+     * Codes that contain
+     * @return JScrollPane
+     */
     private JScrollPane ScrollPane(){
         final JScrollPane scrollPane;
         //Creating an object of custom table model class
