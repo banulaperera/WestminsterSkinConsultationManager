@@ -27,7 +27,7 @@ public class HomePageGUI extends JFrame {
         background.setBorder(border);
 
         //Adding buttons to the login page
-        button1 = new JButton("Show List Of Doctors");
+        button1 = new JButton("Doctor Information");
         button1.setBounds(300,270,800,130);
         button1.setIcon(new ImageIcon("icon1.png"));
         button1.setFont(new Font("Comic Sans", Font.ITALIC,25));
