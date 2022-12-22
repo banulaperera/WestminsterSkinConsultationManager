@@ -6,16 +6,19 @@ public class DoctorListGUI extends JFrame {
 
     DoctorListGUI(){
         //Code for the Frame
+        ImageIcon imageR = new ImageIcon("l.jpg");
+        ImageIcon imageL = new ImageIcon("r.jpg");
+        ImageIcon imageB = new ImageIcon("b.jpg");
         this.setTitle("Westminster Skin Consultation Manager");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1440, 800);
         this.setResizable(false);
         this.setLayout(null);
         this.setVisible(true);
-        this.add(LeftPanel());
+        this.add(LeftPanel(imageL));
         this.add(UpperPanel());
-        this.add(BottomPanel());
-        this.add(RightPanel());
+        this.add(BottomPanel(imageB));
+        this.add(RightPanel(imageR));
         this.add(ScrollPane());
     }
 
@@ -59,12 +62,12 @@ public class DoctorListGUI extends JFrame {
      * Codes that contains the right panel
      * @return JPanel
      */
-    private JPanel RightPanel(){
+    private JPanel RightPanel(ImageIcon image){
         JPanel rightSidePanel;
         JLabel rightLabel;
 
-        rightLabel = new JLabel(new ImageIcon("l.jpg"));
-        rightLabel.setBounds(0, 0, 150, 580);
+        rightLabel = new JLabel(image);
+        rightLabel.setBounds(0, 0, 70, 580);
         rightSidePanel = new JPanel();
         rightSidePanel.setBounds(1370,120, 70, 580);
         rightSidePanel.add(rightLabel);
@@ -76,12 +79,12 @@ public class DoctorListGUI extends JFrame {
      * Codes that contain the Left panel
      * @return JPanel
      */
-    private JPanel LeftPanel(){
+    private JPanel LeftPanel(ImageIcon image){
         JPanel leftSidePanel;
         JLabel leftLabel;
 
-        leftLabel = new JLabel(new ImageIcon("r.jpg"));
-        leftLabel.setBounds(0,0, 150, 580);
+        leftLabel = new JLabel(image);
+        leftLabel.setBounds(0,0, 70, 580);
         leftSidePanel = new JPanel();
         leftSidePanel.setBounds(0,120, 70, 580);
         leftSidePanel.add(leftLabel);
@@ -93,7 +96,7 @@ public class DoctorListGUI extends JFrame {
      * Codes that contain bottom panel
      * @return JPanel
      */
-    private JPanel BottomPanel(){
+    private JPanel BottomPanel(ImageIcon image){
         JPanel bottomPanel;
         JLabel bottomLabel;
 
@@ -101,7 +104,7 @@ public class DoctorListGUI extends JFrame {
         createdWord.setBounds(650,30, 200,20);
         createdWord.setFont(new Font("MV Boli", Font.ITALIC,15));
 
-        bottomLabel = new JLabel(new ImageIcon("b.jpg"));
+        bottomLabel = new JLabel(image);
         bottomLabel.setBounds(0, 0,1440, 75);
         bottomPanel = new JPanel();
         bottomPanel.setBounds(0, 700, 1440,75);

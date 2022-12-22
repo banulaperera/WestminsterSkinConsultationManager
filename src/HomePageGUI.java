@@ -7,24 +7,24 @@ public class HomePageGUI extends JFrame {
 
     public HomePageGUI(){
         //Adding background image to the frame
-        JLabel background = new JLabel(new ImageIcon("BackGroundIMG.jpg"));
+        JLabel background = new JLabel(new ImageIcon("background.jpeg"));
         background.setBounds(0,0,1440,772);
 
         //Adding welcome letter to the JFrame
-        JLabel welcomeLetter = new JLabel("Welcome to the Westminster Skin Consultation Manager");
-        welcomeLetter.setBounds(80, 125, 1300,50);
+        JLabel welcomeLetter = new JLabel("Skin Consultation Manager");
+        welcomeLetter.setBounds(360, 25, 1100,50);
         welcomeLetter.setForeground(Color.BLACK);
         welcomeLetter.setFont(new Font("Calibri", Font.BOLD,45));
         background.add(welcomeLetter);
 
         JLabel icon1 = new JLabel();
         icon1.setIcon(new ImageIcon("uniLogo.png"));
-        icon1.setBounds(590, 10, 100,100);
+        icon1.setBounds(140, 15, 80,80);
         background.add(icon1);
 
         JLabel icon2 = new JLabel();
         icon2.setIcon(new ImageIcon("iitLogo.png"));
-        icon2.setBounds(710, 10, 100,100);
+        icon2.setBounds(230, 15, 80,80);
         background.add(icon2);
 
         //Creating border with color yellow
@@ -45,7 +45,7 @@ public class HomePageGUI extends JFrame {
                 background.add(button1);
 
         //Adding second button to the frame
-        JButton button2 = new JButton("Consultation");
+        JButton button2 = new JButton("Book a Consultation");
         button2.setBounds(300,450,800,130);
         button2.setIcon(new ImageIcon("icon2.png"));
         button2.setFont(new Font("Comic Sans", Font.ITALIC,25));
@@ -57,7 +57,7 @@ public class HomePageGUI extends JFrame {
 
         //Label
         JLabel createdWord = new JLabel("Created by Banula Perera");
-        createdWord.setBounds(620,720, 200,50);
+        createdWord.setBounds(580,720, 200,50);
         createdWord.setFont(new Font("MV Boli", Font.ITALIC,15));
         background.add(createdWord);
 
