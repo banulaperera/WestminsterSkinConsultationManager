@@ -12,7 +12,7 @@ public class HomePageGUI extends JFrame {
 
         //Adding welcome letter to the JFrame
         JLabel welcomeLetter = new JLabel("Skin Consultation Manager");
-        welcomeLetter.setBounds(360, 25, 1100,50);
+        welcomeLetter.setBounds(370, 25, 1100,50);
         welcomeLetter.setForeground(Color.BLACK);
         welcomeLetter.setFont(new Font("Calibri", Font.BOLD,45));
         background.add(welcomeLetter);

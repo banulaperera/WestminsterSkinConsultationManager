@@ -27,7 +27,7 @@ public class ConsultationGUI extends JFrame {
 
     private JPanel RightUpperPanel(){
         backToHomeBtn = new JButton();
-        backToHomeBtn.setBounds(700, 15, 100, 50);
+        backToHomeBtn.setBounds(700, 5, 100, 50);
         backToHomeBtn.setIcon(new ImageIcon("HomeIcon.png"));
         backToHomeBtn.addActionListener(e -> {
             if (e.getSource() == backToHomeBtn){
@@ -37,12 +37,12 @@ public class ConsultationGUI extends JFrame {
             }
         });
         final JLabel jLabel = new JLabel();
-        jLabel.setBounds(0,0,840,80);
+        jLabel.setBounds(0,0,840,70);
         jLabel.setIcon(new ImageIcon("RightUpperImage.jpeg"));
         jLabel.add(backToHomeBtn);
 
         final JPanel jPanel = new JPanel();
-        jPanel.setBounds(600,0,840,80);
+        jPanel.setBounds(600,0,840,70);
         jPanel.add(jLabel);
         return jPanel;
     }
