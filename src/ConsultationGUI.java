@@ -12,6 +12,8 @@ public class ConsultationGUI extends JFrame {
         this.setVisible(true);
         this.add(LeftPanel());
         this.add(RightUpperPanel());
+        this.add(RightMiddlePanel());
+        this.add(RightMiddleUpperPanel());
     }
 
     private JPanel LeftPanel(){
@@ -19,8 +21,13 @@ public class ConsultationGUI extends JFrame {
         jLabel.setIcon(new ImageIcon("Consultation.jpeg"));
         jLabel.setBounds(0,0,600,800);
 
+        final JLabel createdWord = new JLabel("Created by Banula Perera");
+        createdWord.setBounds(300,720, 200,50);
+        createdWord.setFont(new Font("MV Boli", Font.ITALIC,15));
+
         final JPanel jPanel = new JPanel();
         jPanel.setBounds(0,0,600,800);
+        jLabel.add(createdWord);
         jPanel.add(jLabel);
         return jPanel;
     }
@@ -45,5 +52,26 @@ public class ConsultationGUI extends JFrame {
         jPanel.setBounds(600,0,840,70);
         jPanel.add(jLabel);
         return jPanel;
+    }
+
+    private JPanel RightMiddleUpperPanel(){
+        final JPanel jPanel  = new JPanel();
+        jPanel.setBounds(600,70,840,80);
+
+        JLabel label = new JLabel("Book a Consultation");
+        label.setIcon(new ImageIcon("ConsultationIcon.png"));
+        label.setBounds(0, 0, 840, 80);
+        label.setForeground(Color.BLACK);
+        label.setFont(new Font("MV Boli", Font.BOLD,30));
+        jPanel.add(label);
+        return jPanel;
+    }
+    private ScrollPane RightMiddlePanel(){
+        final JTextField textField = new JTextField();
+
+        final ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setBounds(650,150,740,550);
+        scrollPane.setBackground(Color.CYAN);
+        return scrollPane;
     }
 }
