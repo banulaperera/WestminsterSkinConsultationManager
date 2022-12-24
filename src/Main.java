@@ -1,7 +1,9 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         boolean ans = true;
         Scanner scanner = new Scanner(System.in);
@@ -12,7 +14,7 @@ public class Main {
 
         System.out.println("\n                                      Welcome to Westminster Skin Consultation Manager :)");
 
-        do{
+        do {
             System.out.println("======================================================================================================================");
             System.out.println("|" + "                                                        Menu                                                        " + "|");
             System.out.println("======================================================================================================================");
@@ -32,11 +34,19 @@ public class Main {
                 case "D" -> west.DeleteDoc();
                 case "P" -> west.PrintListOfDoc();
                 case "S" -> west.SaveInFile();
-                case "G" -> new HomePageGUI();
+                case "G" -> EventQueue.invokeLater(() -> {
+                    try {
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                             UnsupportedLookAndFeelException e) {
+                        throw new RuntimeException(e);
+                    }
+                    new HomePageGUI();
+                });
                 case "Q" -> ans = false;
             }
 
-        }while (ans);
+        } while (ans);
         System.out.println("\n                                              Thank you for your time, Bye! :)");
     }
 }

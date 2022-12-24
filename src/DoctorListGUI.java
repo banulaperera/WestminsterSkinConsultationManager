@@ -6,9 +6,9 @@ public class DoctorListGUI extends JFrame {
 
     DoctorListGUI(){
         //Code for the Frame
-        ImageIcon imageR = new ImageIcon("l.jpg");
-        ImageIcon imageL = new ImageIcon("r.jpg");
-        ImageIcon imageB = new ImageIcon("b.jpg");
+        ImageIcon imageR = new ImageIcon("RightImage.png");
+        ImageIcon imageL = new ImageIcon("LeftImage.png");
+        ImageIcon imageB = new ImageIcon("BottomImage.png");
         this.setTitle("Westminster Skin Consultation Manager");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1440, 800);
@@ -47,7 +47,7 @@ public class DoctorListGUI extends JFrame {
         label.setForeground(Color.BLACK);
         label.setFont(new Font("MV Boli", Font.BOLD,30));
 
-        upperLabel = new JLabel(new ImageIcon("u.jpg"));
+        upperLabel = new JLabel(new ImageIcon("UpperImage.png"));
         upperLabel.setBounds(0, 0, 1440, 120);
 
         upperPanel = new JPanel();
@@ -127,7 +127,7 @@ public class DoctorListGUI extends JFrame {
         JTable table = new JTable(model);
         table.setBackground(Color.WHITE);
         table.setForeground(Color.BLACK);
-        table.setSelectionBackground(new Color(224, 213, 247));
+        table.setSelectionBackground(new Color(59, 143, 81));
         table.setSelectionForeground(Color.BLACK);
         table.setGridColor(Color.BLACK);
         table.setFont(new Font("Calibri", Font.PLAIN,13));
