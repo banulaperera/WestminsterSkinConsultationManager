@@ -127,13 +127,14 @@ public class DoctorListGUI extends JFrame {
         JTable table = new JTable(model);
         table.setBackground(Color.WHITE);
         table.setForeground(Color.BLACK);
-        table.setSelectionBackground(new Color(59, 143, 81));
+        table.setSelectionBackground(new Color(85,181,183));
         table.setSelectionForeground(Color.BLACK);
         table.setGridColor(Color.BLACK);
         table.setFont(new Font("Calibri", Font.PLAIN,13));
         table.setRowHeight(40);
         table.getTableHeader().setFont(new Font("Calibri", Font.BOLD,14));
         table.getTableHeader().setPreferredSize(new Dimension(90,50));
+        table.getTableHeader().setForeground(new Color(218,93,66));
         table.setAutoCreateRowSorter(true);
 
         scrollPane = new JScrollPane(table);
