@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class WestminsterSkinConsultationManager implements  SkinConsultationManager {
     public static ArrayList<Doctor> list = new ArrayList<>(10);
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private static final Scanner scanner = new Scanner(System.in);
 
     @Override
