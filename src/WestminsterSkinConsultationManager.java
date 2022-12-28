@@ -24,7 +24,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
                     System.out.println("|" + "                                             Add new doctor                                                        " + "|");
                     System.out.println("======================================================================================================================");
                     System.out.println("Enter the name of the doctor:");
-                    String docName = scanner.next();
+                    String docName = "Dr. " + scanner.next();
 
                     System.out.println("Enter the surname of the doctor:");
                     String surname = scanner.next();

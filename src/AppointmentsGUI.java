@@ -63,7 +63,7 @@ public class AppointmentsGUI extends JFrame {
         return jPanel;
     }
     private JScrollPane Table(){
-        AppointmentTableModel appointmentTableModel = new AppointmentTableModel(ConsultationGUI.patientList);
+        AppointmentTableModel appointmentTableModel = new AppointmentTableModel(ConsultationGUI.patientList, ConsultationGUI.consultationList);
 
         JTable table = new JTable(appointmentTableModel);
         table.setBackground(Color.WHITE);
@@ -74,12 +74,13 @@ public class AppointmentsGUI extends JFrame {
         table.setFont(new Font("Calibri", Font.PLAIN,13));
         table.setRowHeight(40);
         table.getTableHeader().setFont(new Font("Calibri", Font.BOLD,14));
-        table.getTableHeader().setPreferredSize(new Dimension(90,50));
+        table.getTableHeader().setPreferredSize(new Dimension(120,50));
         table.getTableHeader().setForeground(new Color(1,6,65));
         table.setAutoCreateRowSorter(true);
 
         JScrollPane jScrollPane = new JScrollPane(table);
         jScrollPane.setBounds(60, 85, 1170, 500);
+        jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         return jScrollPane;
     }
 }

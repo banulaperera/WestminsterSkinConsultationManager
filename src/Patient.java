@@ -2,7 +2,8 @@ import java.util.Date;
 
 public class Patient extends Person{
 
-    private static int uniqueId = 0;
+    private int id;
+    private static int idCount = 1001;
 
     public Patient(String fName, String lName, Date dob, String mobileNumber, String gender){
         super.setName(fName);
@@ -10,11 +11,9 @@ public class Patient extends Person{
         super.setdOB(dob);
         super.setMobileNumber(mobileNumber);
         super.setGender(gender);
+        this.id = idCount++;
     }
     public int getUniqueId() {
-        return uniqueId;
-    }
-    public void setUniqueId(){
-        uniqueId = uniqueId + 1;
+        return this.id;
     }
 }

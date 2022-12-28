@@ -14,6 +14,8 @@ public class Doctor extends Person implements Comparable<Doctor>{
         super.setGender(gender);
     }
 
+    public Doctor(){}
+
     public String getMedicalLicenseNumber() {
         return medicalLicenseNumber;
     }

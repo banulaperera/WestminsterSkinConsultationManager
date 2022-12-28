@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,63 +8,67 @@ import java.util.Date;
 
 public class ConsultationGUI extends JFrame {
     public static final ArrayList<Patient> patientList = new ArrayList<>();
+    public static final ArrayList<Consultation> consultationList = new ArrayList<>();
     private JButton backToHomeBtn;
-    private final JTextField textFieldForFName, textFieldForSurname,textFieldForMobile;
-    private final JLabel labelFieldForDOB,specialization,labelForDate;
+    private final JTextField textFieldForFName, textFieldForSurname, textFieldForMobile;
+    private final JLabel labelFieldForDOB, labelForDate;
     private final JTextArea textAreaForNotes;
     private final JRadioButton male;
-    private String gender;
-    private String dob;
-    Date date;
+    private String gender, dob;
+    private Date date;
+    private final DefaultComboBoxModel<Object> docNames = new DefaultComboBoxModel<>();
+    private final DefaultComboBoxModel<Object> specializationBoxModel = new DefaultComboBoxModel<>();
+    private final DefaultComboBoxModel<Object> timeSlotBoxModel = new DefaultComboBoxModel<>();
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    ConsultationGUI(){
+
+    ConsultationGUI() {
         JLabel patientDetails = new JLabel("Patient Details");
-        patientDetails.setFont(new Font("Arial", Font.BOLD,25));
-        patientDetails.setBounds(930,55, 300, 100);
+        patientDetails.setFont(new Font("Arial", Font.BOLD, 25));
+        patientDetails.setBounds(930, 55, 300, 100);
 
         textFieldForFName = new JTextField();
-        textFieldForFName.setBounds(790,150,200,40);
-        textFieldForFName.setFont(new Font("Arial", Font.PLAIN,18));
+        textFieldForFName.setBounds(790, 150, 200, 40);
+        textFieldForFName.setFont(new Font("Arial", Font.PLAIN, 18));
         textFieldForFName.setBackground(new Color(207, 205, 202));
 
         JLabel forFirstName = new JLabel("First Name");
-        forFirstName.setBounds(640,150,100,35);
-        forFirstName.setFont(new Font("MV Boli", Font.PLAIN,18));
+        forFirstName.setBounds(640, 150, 100, 35);
+        forFirstName.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         textFieldForSurname = new JTextField();
-        textFieldForSurname.setBounds(1190,150,200,40);
-        textFieldForSurname.setFont(new Font("Arial", Font.PLAIN,18));
+        textFieldForSurname.setBounds(1190, 150, 200, 40);
+        textFieldForSurname.setFont(new Font("Arial", Font.PLAIN, 18));
         textFieldForSurname.setBackground(new Color(207, 205, 202));
 
         JLabel forSurName = new JLabel("Surname");
-        forSurName.setBounds(1040,150,100,35);
-        forSurName.setFont(new Font("MV Boli", Font.PLAIN,18));
+        forSurName.setBounds(1040, 150, 100, 35);
+        forSurName.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         labelFieldForDOB = new JLabel();
-        labelFieldForDOB.setBounds(790, 230, 150,35);
-        labelFieldForDOB.setFont(new Font("Arial", Font.PLAIN,18));
+        labelFieldForDOB.setBounds(790, 230, 150, 35);
+        labelFieldForDOB.setFont(new Font("Arial", Font.PLAIN, 18));
         labelFieldForDOB.setBackground(new Color(207, 205, 202));
         labelFieldForDOB.setOpaque(true);
 
         JButton calenderBtn = new JButton();
-        calenderBtn.setBounds(945, 230, 50,40);
+        calenderBtn.setBounds(945, 230, 50, 40);
         calenderBtn.setIcon(new ImageIcon("calendar.png"));
         calenderBtn.addActionListener(ae -> labelFieldForDOB.setText(new DatePicker(this).setPickedDate()));
 
         JLabel forDOB = new JLabel("Date Of Birth");
-        forDOB.setBounds(640,230,150,35);
-        forDOB.setFont(new Font("MV Boli", Font.PLAIN,18));
+        forDOB.setBounds(640, 230, 150, 35);
+        forDOB.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         textFieldForMobile = new JTextField();
-        textFieldForMobile.setBounds(1190,230,200,40);
-        textFieldForMobile.setFont(new Font("Arial", Font.PLAIN,18));
+        textFieldForMobile.setBounds(1190, 230, 200, 40);
+        textFieldForMobile.setFont(new Font("Arial", Font.PLAIN, 18));
         textFieldForMobile.setBackground(new Color(207, 205, 202));
 
         JLabel forMobile = new JLabel("Mobile Number");
-        forMobile.setBounds(1040,230,150,35);
-        forMobile.setFont(new Font("MV Boli", Font.PLAIN,18));
+        forMobile.setBounds(1040, 230, 150, 35);
+        forMobile.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
-        JLabel  gender = new JLabel("Gender");
+        JLabel gender = new JLabel("Gender");
         gender.setFont(new Font("Arial", Font.PLAIN, 18));
         gender.setSize(100, 20);
         gender.setLocation(640, 310);
@@ -86,56 +91,47 @@ public class ConsultationGUI extends JFrame {
 
         JSeparator jSeparator = new JSeparator();
         jSeparator.setOrientation(SwingConstants.HORIZONTAL);
-        jSeparator.setBounds(640,340, 750, 10);
-        jSeparator.setBackground(new Color(123,173,244));
+        jSeparator.setBounds(640, 340, 750, 10);
+        jSeparator.setBackground(new Color(123, 173, 244));
 
         JLabel addConsultation = new JLabel("Add Consultation");
-        addConsultation.setFont(new Font("Arial", Font.BOLD,25));
-        addConsultation.setBounds(930,360, 300, 50);
+        addConsultation.setFont(new Font("Arial", Font.BOLD, 25));
+        addConsultation.setBounds(930, 360, 300, 50);
 
         JLabel selectDocLabel = new JLabel("Select a Doctor");
-        selectDocLabel.setBounds(640, 430, 150,35);
-        selectDocLabel.setFont(new Font("MV Boli", Font.PLAIN,18));
+        selectDocLabel.setBounds(1040, 430, 150, 35);
+        selectDocLabel.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         JLabel labelForSpec = new JLabel("Specialization");
-        labelForSpec.setBounds(1040, 430, 150,35);
-        labelForSpec.setFont(new Font("MV Boli", Font.PLAIN,18));
-
-        specialization = new JLabel();
-        specialization.setBounds(1190, 430, 200, 30);
-        specialization.setFont(new Font("Arial", Font.PLAIN,18));
-        specialization.setBackground(new Color(207, 205, 202));
-        specialization.setOpaque(true);
+        labelForSpec.setBounds(640, 430, 150, 35);
+        labelForSpec.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         JLabel forDate = new JLabel("Pick a Date");
         forDate.setBounds(640, 510, 120, 35);
-        forDate.setFont(new Font("MV Boli", Font.PLAIN,18));
+        forDate.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         labelForDate = new JLabel();
-        labelForDate.setBounds(790, 510, 150,35);
-        labelForDate.setFont(new Font("Arial", Font.PLAIN,18));
+        labelForDate.setBounds(790, 510, 150, 35);
+        labelForDate.setFont(new Font("Arial", Font.PLAIN, 18));
         labelForDate.setBackground(new Color(207, 205, 202));
         labelForDate.setOpaque(true);
 
         JButton calenderBtn2 = new JButton();
-        calenderBtn2.setBounds(945, 510, 50,40);
+        calenderBtn2.setBounds(945, 510, 50, 40);
         calenderBtn2.setIcon(new ImageIcon("calendar.png"));
         calenderBtn2.addActionListener(ae -> labelForDate.setText(new DatePicker(this).setPickedDate()));
 
-        JLabel labelForDuration = new JLabel("Duration(Hours)");
-        labelForDuration.setBounds(1040, 510, 150,35);
-        labelForDuration.setFont(new Font("MV Boli", Font.PLAIN,18));
-
-//        int[] hours = new int[6];
-//        JComboBox timeDuration = new JComboBox(hours);
+        JLabel labelForDuration = new JLabel("Time Slot");
+        labelForDuration.setBounds(1040, 510, 150, 35);
+        labelForDuration.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         JLabel labelForNote = new JLabel("Add Notes");
         labelForNote.setBounds(640, 590, 100, 35);
-        labelForNote.setFont(new Font("MV Boli", Font.PLAIN,18));
+        labelForNote.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         textAreaForNotes = new JTextArea();
         textAreaForNotes.setLineWrap(true);
-        textAreaForNotes.setFont(new Font("Arial", Font.ITALIC,15));
+        textAreaForNotes.setFont(new Font("Arial", Font.ITALIC, 15));
         textAreaForNotes.setBackground(new Color(207, 205, 202));
         textAreaForNotes.setOpaque(true);
 
@@ -144,13 +140,13 @@ public class ConsultationGUI extends JFrame {
 
         JLabel labelForImg = new JLabel("Upload an Image");
         labelForImg.setBounds(1040, 590, 170, 35);
-        labelForImg.setFont(new Font("MV Boli", Font.PLAIN,18));
+        labelForImg.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
         JButton fileChooser = new JButton("Browse");
         fileChooser.setIcon(new ImageIcon("folder.png"));
-        fileChooser.setBounds(1210,590, 150,35);
+        fileChooser.setBounds(1210, 590, 150, 35);
         fileChooser.addActionListener(ae -> {
-            if (ae.getSource() == fileChooser){
+            if (ae.getSource() == fileChooser) {
                 JFileChooser jFileChooser = new JFileChooser();
                 jFileChooser.showSaveDialog(null);
             }
@@ -177,9 +173,8 @@ public class ConsultationGUI extends JFrame {
         this.add(jSeparator);
         this.add(addConsultation);
         this.add(selectDocLabel);
-        this.add(ComboBox());
+        this.add(DoctorNames());
         this.add(labelForSpec);
-        this.add(specialization);
         this.add(forDate);
         this.add(labelForDate);
         this.add(calenderBtn2);
@@ -195,30 +190,33 @@ public class ConsultationGUI extends JFrame {
         this.add(gender);
         this.add(male);
         this.add(female);
+        this.add(DoctorSpecialization());
+        this.add(TimeSlot());
+        LoadFromFile(patientList,consultationList);
     }
 
-    private JPanel LeftPanel(){
+    private JPanel LeftPanel() {
         final JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon("Consultation.jpeg"));
-        jLabel.setBounds(0,0,600,800);
+        jLabel.setBounds(0, 0, 600, 800);
 
         final JLabel createdWord = new JLabel("Created by Banula Perera");
-        createdWord.setBounds(300,720, 200,50);
-        createdWord.setFont(new Font("MV Boli", Font.ITALIC,15));
+        createdWord.setBounds(300, 720, 200, 50);
+        createdWord.setFont(new Font("MV Boli", Font.ITALIC, 15));
 
         final JPanel jPanel = new JPanel();
-        jPanel.setBounds(0,0,600,800);
+        jPanel.setBounds(0, 0, 600, 800);
         jLabel.add(createdWord);
         jPanel.add(jLabel);
         return jPanel;
     }
 
-    private JPanel RightUpperPanel(){
+    private JPanel RightUpperPanel() {
         backToHomeBtn = new JButton();
         backToHomeBtn.setBounds(700, 5, 100, 50);
         backToHomeBtn.setIcon(new ImageIcon("HomeIcon.png"));
         backToHomeBtn.addActionListener(e -> {
-            if (e.getSource() == backToHomeBtn){
+            if (e.getSource() == backToHomeBtn) {
                 backToHomeBtn.setBackground(new Color(224, 213, 247));
                 this.dispose();
                 new HomePageGUI();
@@ -228,104 +226,229 @@ public class ConsultationGUI extends JFrame {
 //        label.setIcon(new ImageIcon("ConsultationIcon.png"));
         label.setBounds(0, 5, 840, 50);
         label.setForeground(Color.BLACK);
-        label.setFont(new Font("MV Boli", Font.BOLD,30));
+        label.setFont(new Font("MV Boli", Font.BOLD, 30));
 
         final JLabel jLabel = new JLabel();
-        jLabel.setBounds(0,0,840,70);
+        jLabel.setBounds(0, 0, 840, 70);
         jLabel.setIcon(new ImageIcon("RightUpperImage.jpeg"));
         jLabel.add(backToHomeBtn);
 
         final JPanel jPanel = new JPanel();
-        jPanel.setBounds(600,0,840,70);
+        jPanel.setBounds(600, 0, 840, 70);
         jPanel.add(jLabel);
         jLabel.add(label);
         return jPanel;
     }
 
-    private JComboBox ComboBox(){
+    private JComboBox DoctorNames() {
+        JComboBox jComboBox = new JComboBox(docNames);
+        jComboBox.setBounds(1190, 423, 200, 50);
+        jComboBox.setFont(new Font("Arial", Font.PLAIN, 15));
+        return jComboBox;
+    }
+
+    private JComboBox DoctorSpecialization() {
         int count = WestminsterSkinConsultationManager.list.size();
-        String[] docNames = new String[count];
+        String[] specialization = new String[count];
         int iteration = 0;
-        for (Doctor doc:
+        for (Doctor doc :
                 WestminsterSkinConsultationManager.list) {
-            docNames[iteration] = doc.getName() + " " + doc.getSurname();
+            specialization[iteration] = doc.getSpecialization();
             iteration++;
         }
 
-        JComboBox doctorList = new JComboBox(docNames);
-        doctorList.setBounds(790, 423, 200,50);
-        doctorList.setFont(new Font("Arial", Font.PLAIN,15));
-        return  doctorList;
+        specializationBoxModel.addElement("-- Select --");
+        docNames.addElement("-- Select --");
+
+        //removing all duplicate elements in the array
+        for (int i = 0; i < count; i++) {
+            int flag = 0;
+            for (int j = 0; j < i; j++) {
+                if (specialization[i].equals(specialization[j])) {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                specializationBoxModel.addElement(specialization[i]);
+            }
+        }
+
+        JComboBox jComboBox = new JComboBox(specializationBoxModel);
+        jComboBox.setBounds(790, 423, 200, 50);
+        jComboBox.setFont(new Font("Arial", Font.PLAIN, 15));
+        jComboBox.addActionListener(ae -> {
+            if (ae.getSource() == jComboBox) {
+                docNames.removeAllElements();
+                for (Doctor doctor :
+                        WestminsterSkinConsultationManager.list) {
+                    if (doctor.getSpecialization().equals(jComboBox.getSelectedItem())) {
+                        docNames.addElement(doctor.getName() + " " + doctor.getSurname());
+                    }
+                }
+            }
+        });
+        return jComboBox;
     }
 
-    private JPanel RightDownPanel(){
+    private JComboBox TimeSlot() {
+        timeSlotBoxModel.addElement("-- Select --");
+        timeSlotBoxModel.addElement("8 a.m. - 9 a.m.");
+        timeSlotBoxModel.addElement("9 a.m. - 10 a.m.");
+        timeSlotBoxModel.addElement("10 a.m. - 11 a.m.");
+        timeSlotBoxModel.addElement("11 a.m. - 12 a.m.");
+        timeSlotBoxModel.addElement("2 p.m. - 3 p.m.");
+        timeSlotBoxModel.addElement("3 p.m. - 4 p.m.");
+        timeSlotBoxModel.addElement("4 p.m. - 5 p.m.");
+        timeSlotBoxModel.addElement("5 p.m. - 6 p.m.");
+
+        JComboBox jComboBox = new JComboBox(timeSlotBoxModel);
+        jComboBox.setBounds(1190, 503, 200, 50);
+        jComboBox.setFont(new Font("Arial", Font.PLAIN, 15));
+        return jComboBox;
+    }
+
+    private JPanel RightDownPanel() {
         final JPanel jPanel = new JPanel();
-        jPanel.setBounds(600, 760,840,20);
-        jPanel.setBackground(new Color(123,173,244));
-        return  jPanel;
+        jPanel.setBounds(600, 760, 840, 20);
+        jPanel.setBackground(new Color(123, 173, 244));
+        return jPanel;
     }
 
-    private JButton ListOfAppointments(){
+    private JButton ListOfAppointments() {
         JButton listOfAppointment = new JButton("List of Appointments");
-        listOfAppointment.setBounds(640, 705, 200,35);
-        listOfAppointment.setFont(new Font("MV Boli", Font.BOLD,12));
+        listOfAppointment.setBounds(640, 705, 200, 35);
+        listOfAppointment.setFont(new Font("MV Boli", Font.BOLD, 12));
         listOfAppointment.addActionListener(ae -> {
-            if (ae.getSource() == listOfAppointment){
+            if (ae.getSource() == listOfAppointment) {
                 new AppointmentsGUI();
             }
         });
         return listOfAppointment;
     }
 
-    private JButton Book(){
+    private JButton Book() {
         JButton book = new JButton("Book Now");
-        book.setBounds(1250, 705, 150,35);
-        book.setFont(new Font("MV Boli", Font.BOLD,12));
+        book.setBounds(1250, 705, 150, 35);
+        book.setFont(new Font("MV Boli", Font.BOLD, 12));
         book.setForeground(Color.BLUE);
         book.addActionListener(ae -> {
-            if (ae.getSource() == book){
-                String fName = textFieldForFName.getText();
-                String lName = textFieldForSurname.getText();
-//                System.out.println(labelFieldForDOB.getText());
-                try {
-                    dob =  labelFieldForDOB.getText();
-                    date = dateFormat.parse(dob);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-                String mobile = textFieldForMobile.getText();
+            if (ae.getSource() == book) {
+                if (!textFieldForFName.getText().isEmpty() && !textFieldForSurname.getText().isEmpty() && !labelFieldForDOB.getText().isEmpty() && !textFieldForMobile.getText().isEmpty() && !textAreaForNotes.getText().isEmpty()) {
+                    Date date1;
+                    String fName = textFieldForFName.getText();
+                    String lName = textFieldForSurname.getText();
+                    try {
+                        dob = labelFieldForDOB.getText();
+                        date = dateFormat.parse(dob);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String mobile = textFieldForMobile.getText();
 
-                if (male.isSelected()){
-                    gender = "Male";
+                    if (male.isSelected()) {
+                        gender = "Male";
+                    } else {
+                        gender = "Female";
+                    }
+                    String specialization = (String) DoctorSpecialization().getSelectedItem();
+                    String doctorName = (String) DoctorNames().getSelectedItem();
+                    String pickedDate = labelForDate.getText();
+                    try {
+                        date1 = dateFormat.parse(pickedDate);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String time = (String) TimeSlot().getSelectedItem();
+                    String notes = textAreaForNotes.getText();
+
+                    Consultation consultation = new Consultation(doctorName, specialization, date1, time, notes);
+                    Patient patient = new Patient(fName, lName, date, mobile, gender);
+                    patientList.add(patient);
+                    consultationList.add(consultation);
+                    SaveInFile();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please fill all the fields.", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
                 }
-                else {
-                    gender = "Female";
-                }
-                Patient patient = new Patient(fName, lName, date, mobile, gender);
-                patient.setUniqueId();
-                patientList.add(patient);
             }
         });
         return book;
     }
 
-    private JButton ResetButton(){
+    private JButton ResetButton() {
         JButton reset = new JButton("Reset");
-        reset.setBounds(1090, 705, 150,35);
-        reset.setFont(new Font("MV Boli", Font.BOLD,12));
+        reset.setBounds(1090, 705, 150, 35);
+        reset.setFont(new Font("MV Boli", Font.BOLD, 12));
         reset.setForeground(Color.RED);
         reset.addActionListener(ae -> {
-            if (ae.getSource() == reset){
+            if (ae.getSource() == reset) {
                 String def = "";
                 textFieldForFName.setText(def);
                 textFieldForSurname.setText(def);
                 textFieldForMobile.setText(def);
                 labelFieldForDOB.setText(def);
-                specialization.setText(def);
+                labelForDate.setText(def);
+                textAreaForNotes.setText(def);
+                specializationBoxModel.removeAllElements();
+                DoctorSpecialization();
+                DoctorNames();
+                timeSlotBoxModel.removeAllElements();
+                TimeSlot();
                 labelForDate.setText(def);
                 textAreaForNotes.setText(def);
             }
         });
         return reset;
+    }
+
+    private void SaveInFile() {
+        try {
+            FileOutputStream fo = new FileOutputStream("PatientList.txt");
+            ObjectOutputStream oos = new ObjectOutputStream(fo);
+
+            for (Patient patient :
+                    patientList) {
+                oos.writeObject(patient);
+            }
+            fo.close();
+            oos.close();
+
+
+            FileOutputStream fo1 = new FileOutputStream("Consultation.txt");
+            ObjectOutputStream oos1 = new ObjectOutputStream(fo1);
+
+            for (Consultation consultation :
+                    consultationList) {
+                oos1.writeObject(consultation);
+            }
+            fo1.close();
+            oos1.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void LoadFromFile(ArrayList<Patient> patients, ArrayList<Consultation> consultations){
+        try{
+            FileInputStream fis = new FileInputStream("PatientList.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            FileInputStream fis1 = new FileInputStream("Consultation.txt");
+            ObjectInputStream ois1 = new ObjectInputStream(fis1);
+            while (true) {
+                try{
+                    Patient patient = (Patient) ois.readObject();
+                    Consultation consultation = (Consultation) ois1.readObject();
+                    patients.add(patient);
+                    consultations.add(consultation);
+                }
+                catch (Exception e){
+                    break;
+                }
+            }
+        }
+        catch (IOException e){
+            throw new RuntimeException(e);
+        }
     }
 }
