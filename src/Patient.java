@@ -2,18 +2,18 @@ import java.util.Date;
 
 public class Patient extends Person{
 
-    private int id;
-    private static int idCount = 1001;
+    private int _id;
 
-    public Patient(String fName, String lName, Date dob, String mobileNumber, String gender){
-        super.setName(fName);
-        super.setSurname(lName);
-        super.setdOB(dob);
-        super.setMobileNumber(mobileNumber);
-        super.setGender(gender);
-        this.id = idCount++;
+    public Patient(String name, String surname, Date birthDate, String mobileNumber, String gender, int id) {
+        super(name, surname, birthDate, mobileNumber, gender);
+        this._id = id + 1;
     }
-    public int getUniqueId() {
-        return this.id;
+
+    public void set_id(int _id) {
+        this._id = _id;
+    }
+
+    public int get_id() {
+        return this._id;
     }
 }

@@ -91,7 +91,7 @@ class DatePicker {
         if (day.equals(""))
             return day;
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
-                "dd-MM-yyyy");
+                "dd/MM/yyyy");
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.set(year, month, Integer.parseInt(day));
         return sdf.format(cal.getTime());

@@ -11,6 +11,7 @@ public class Main {
 
         //Initially load all the data from the file
         west.LoadFromFile(WestminsterSkinConsultationManager.list);
+        ConsultationGUI.LoadFromFile(ConsultationGUI.patientList,ConsultationGUI.consultationList);
 
         System.out.println("\n                                      Welcome to Westminster Skin Consultation Manager :)");
 

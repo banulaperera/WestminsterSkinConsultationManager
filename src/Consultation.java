@@ -1,47 +1,57 @@
 import java.util.Date;
 
 public class Consultation extends Doctor{
-    private String  timeSlot;
-    private String cost;
-    private String notes;
-    private Date date;
+    private String _timeSlot;
+    private String _cost;
+    private String _notes;
+    private Date _date;
+
+    public void set_date(Date _date) {
+        this._date = _date;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
     private String doctorName;
 
-    public Consultation(String name, String specialization, Date date, String time, String notes){
+    public Consultation(String name, String specialization, Date date, String time, String notes, String costOfTheConsultation){
         this.doctorName = name;
-        super.setSpecialization(specialization);
-        this.date = date;
-        this.timeSlot = time;
-        this.notes = notes;
+        super.set_specialization(specialization);
+        this._date = date;
+        this._timeSlot = time;
+        this._notes = notes;
+        this._cost = costOfTheConsultation;
     }
-    public String  getTimeSlot() {
-        return timeSlot;
-    }
-
-    public void setTimeSlot(String  timeSlot) {
-        this.timeSlot = timeSlot;
+    public String get_timeSlot() {
+        return _timeSlot;
     }
 
-    public String getCost() {
-        return cost;
+    public void set_timeSlot(String _timeSlot) {
+        this._timeSlot = _timeSlot;
     }
 
-    public void setCost(String cost) {
-        this.cost = cost;
+    public String get_cost() {
+        return _cost;
     }
 
-    public String getNotes() {
-        return notes;
+    public void set_cost(String _cost) {
+        this._cost = _cost;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public String get_notes() {
+        return _notes;
+    }
+
+    public void set_notes(String _notes) {
+        this._notes = _notes;
     }
 
     public String getDoctorName(){
         return doctorName;
     }
-    public Date getDate(){
-        return date;
+    public Date get_date(){
+        return _date;
     }
 }

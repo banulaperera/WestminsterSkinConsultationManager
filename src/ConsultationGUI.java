@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,12 +13,11 @@ public class ConsultationGUI extends JFrame {
     private final JLabel labelFieldForDOB, labelForDate;
     private final JTextArea textAreaForNotes;
     private final JRadioButton male;
-    private String gender, dob;
-    private Date date;
+    private String gender, dob, pickedDate;
+    private Date date, pickedDate1;
     private final DefaultComboBoxModel<Object> docNames = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Object> specializationBoxModel = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Object> timeSlotBoxModel = new DefaultComboBoxModel<>();
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     ConsultationGUI() {
         JLabel patientDetails = new JLabel("Patient Details");
@@ -131,7 +129,7 @@ public class ConsultationGUI extends JFrame {
 
         textAreaForNotes = new JTextArea();
         textAreaForNotes.setLineWrap(true);
-        textAreaForNotes.setFont(new Font("Arial", Font.ITALIC, 15));
+        textAreaForNotes.setFont(new Font("Arial", Font.PLAIN, 15));
         textAreaForNotes.setBackground(new Color(207, 205, 202));
         textAreaForNotes.setOpaque(true);
 
@@ -192,7 +190,6 @@ public class ConsultationGUI extends JFrame {
         this.add(female);
         this.add(DoctorSpecialization());
         this.add(TimeSlot());
-        LoadFromFile(patientList,consultationList);
     }
 
     private JPanel LeftPanel() {
@@ -253,7 +250,7 @@ public class ConsultationGUI extends JFrame {
         int iteration = 0;
         for (Doctor doc :
                 WestminsterSkinConsultationManager.list) {
-            specialization[iteration] = doc.getSpecialization();
+            specialization[iteration] = doc.get_specialization();
             iteration++;
         }
 
@@ -282,8 +279,8 @@ public class ConsultationGUI extends JFrame {
                 docNames.removeAllElements();
                 for (Doctor doctor :
                         WestminsterSkinConsultationManager.list) {
-                    if (doctor.getSpecialization().equals(jComboBox.getSelectedItem())) {
-                        docNames.addElement(doctor.getName() + " " + doctor.getSurname());
+                    if (doctor.get_specialization().equals(jComboBox.getSelectedItem())) {
+                        docNames.addElement(doctor.get_name() + " " + doctor.get_surname());
                     }
                 }
             }
@@ -334,13 +331,12 @@ public class ConsultationGUI extends JFrame {
         book.setForeground(Color.BLUE);
         book.addActionListener(ae -> {
             if (ae.getSource() == book) {
-                if (!textFieldForFName.getText().isEmpty() && !textFieldForSurname.getText().isEmpty() && !labelFieldForDOB.getText().isEmpty() && !textFieldForMobile.getText().isEmpty() && !textAreaForNotes.getText().isEmpty()) {
-                    Date date1;
+                if (!textFieldForFName.getText().isEmpty() && !textFieldForSurname.getText().isEmpty() && !labelFieldForDOB.getText().isEmpty() && !textFieldForMobile.getText().isEmpty()) {
                     String fName = textFieldForFName.getText();
                     String lName = textFieldForSurname.getText();
                     try {
                         dob = labelFieldForDOB.getText();
-                        date = dateFormat.parse(dob);
+                        date = WestminsterSkinConsultationManager.dateFormat.parse(dob);
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
@@ -353,20 +349,52 @@ public class ConsultationGUI extends JFrame {
                     }
                     String specialization = (String) DoctorSpecialization().getSelectedItem();
                     String doctorName = (String) DoctorNames().getSelectedItem();
-                    String pickedDate = labelForDate.getText();
                     try {
-                        date1 = dateFormat.parse(pickedDate);
+                        pickedDate = labelForDate.getText();
+                        pickedDate1 = WestminsterSkinConsultationManager.dateFormat.parse(pickedDate);
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
                     String time = (String) TimeSlot().getSelectedItem();
                     String notes = textAreaForNotes.getText();
 
-                    Consultation consultation = new Consultation(doctorName, specialization, date1, time, notes);
-                    Patient patient = new Patient(fName, lName, date, mobile, gender);
-                    patientList.add(patient);
-                    consultationList.add(consultation);
+                    int flag = 0;
+
+                    for (Patient patient:
+                         patientList) {
+                        if (fName.equalsIgnoreCase(patient.get_name()) && lName.equalsIgnoreCase(patient.get_surname())){
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    int yesOrNo;
+                    if (flag == 1){
+                        yesOrNo = JOptionPane.showConfirmDialog(this, "Consultation Fee :- £25\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
+                        if (yesOrNo == 0){
+                            String consultationFee = "£25";
+                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes,consultationFee);
+                            Patient patient = new Patient(fName, lName, date, mobile, gender, patientList.get(patientList.size() - 1).get_id());
+                            patientList.add(patient);
+                            consultationList.add(consultation);
+                            JOptionPane.showMessageDialog(this,"Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
+                        }
+                    }
+                    else{
+                        yesOrNo = JOptionPane.showConfirmDialog(this, "Consultation Fee :- £15\nDo you want to book the consultation?","Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
+                        if (yesOrNo == 0){
+                            String consultationFee = "£15";
+                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee);
+                            Patient patient = new Patient(fName, lName, date, mobile, gender, patientList.size());
+                            patientList.add(patient);
+                            consultationList.add(consultation);
+                            JOptionPane.showMessageDialog(this,"Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
+                        }
+                    }
+                    if (yesOrNo == 1){
+                        JOptionPane.showMessageDialog(this,"Cancelled!","ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("cross.png"));
+                    }
                     SaveInFile();
+                    Reset();
                 } else {
                     JOptionPane.showMessageDialog(this, "Please fill all the fields.", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
                 }
@@ -382,26 +410,29 @@ public class ConsultationGUI extends JFrame {
         reset.setForeground(Color.RED);
         reset.addActionListener(ae -> {
             if (ae.getSource() == reset) {
-                String def = "";
-                textFieldForFName.setText(def);
-                textFieldForSurname.setText(def);
-                textFieldForMobile.setText(def);
-                labelFieldForDOB.setText(def);
-                labelForDate.setText(def);
-                textAreaForNotes.setText(def);
-                specializationBoxModel.removeAllElements();
-                DoctorSpecialization();
-                DoctorNames();
-                timeSlotBoxModel.removeAllElements();
-                TimeSlot();
-                labelForDate.setText(def);
-                textAreaForNotes.setText(def);
+                Reset();
             }
         });
         return reset;
     }
 
-    private void SaveInFile() {
+    private void Reset(){
+        String def = "";
+        textFieldForFName.setText(def);
+        textFieldForSurname.setText(def);
+        textFieldForMobile.setText(def);
+        labelFieldForDOB.setText(def);
+        labelForDate.setText(def);
+        textAreaForNotes.setText(def);
+        specializationBoxModel.removeAllElements();
+        DoctorSpecialization();
+        DoctorNames();
+        timeSlotBoxModel.removeAllElements();
+        TimeSlot();
+        labelForDate.setText(def);
+        textAreaForNotes.setText(def);
+    }
+    public static void SaveInFile() {
         try {
             FileOutputStream fo = new FileOutputStream("PatientList.txt");
             ObjectOutputStream oos = new ObjectOutputStream(fo);
@@ -428,7 +459,7 @@ public class ConsultationGUI extends JFrame {
         }
     }
 
-    private void LoadFromFile(ArrayList<Patient> patients, ArrayList<Consultation> consultations){
+    public static void LoadFromFile(ArrayList<Patient> listOfPatients, ArrayList<Consultation> listOfConsultation){
         try{
             FileInputStream fis = new FileInputStream("PatientList.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -439,15 +470,18 @@ public class ConsultationGUI extends JFrame {
                 try{
                     Patient patient = (Patient) ois.readObject();
                     Consultation consultation = (Consultation) ois1.readObject();
-                    patients.add(patient);
-                    consultations.add(consultation);
+                    listOfPatients.add(patient);
+                    listOfConsultation.add(consultation);
                 }
                 catch (Exception e){
                     break;
                 }
             }
-        }
-        catch (IOException e){
+            fis1.close();
+            ois1.close();
+            fis.close();
+            ois.close();
+        } catch (IOException e){
             throw new RuntimeException(e);
         }
     }

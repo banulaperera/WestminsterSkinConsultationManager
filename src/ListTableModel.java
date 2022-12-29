@@ -24,17 +24,17 @@ class ListTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object temp = null;
         if(columnIndex == 0){
-            temp = docList.get(rowIndex).getMedicalLicenseNumber();
+            temp = docList.get(rowIndex).get_medicalLicenseNumber();
         }else if(columnIndex == 1){
-            temp = docList.get(rowIndex).getName() + " " + docList.get(rowIndex).getSurname();
+            temp = docList.get(rowIndex).get_name() + " " + docList.get(rowIndex).get_surname();
         }else if(columnIndex == 2){
-            temp = docList.get(rowIndex).getdOB();
+            temp = docList.get(rowIndex).get_dOB();
         }else if(columnIndex == 3){
-            temp = docList.get(rowIndex).getGender();
+            temp = docList.get(rowIndex).get_gender();
         }else if(columnIndex == 4){
-            temp = docList.get(rowIndex).getMobileNumber();
+            temp = docList.get(rowIndex).get_mobileNumber();
         }else if(columnIndex == 5){
-            temp = docList.get(rowIndex).getSpecialization();
+            temp = docList.get(rowIndex).get_specialization();
         }
         return temp;
     }

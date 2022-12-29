@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class WestminsterSkinConsultationManager implements  SkinConsultationManager {
     public static ArrayList<Doctor> list = new ArrayList<>(10);
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private static final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -69,7 +69,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
                         System.out.println("You entered the wrong selection");
                     }
 
-                    Doctor doc = new Doctor(medNumber, specialization, surname, docName, dob, mob, gen);
+                    Doctor doc = new Doctor(docName, surname, dob, mob, gen, medNumber, specialization);
                     list.add(doc);
                     System.out.println("Doctor added successfully!");
                     System.out.println("\nYou can add " + (10 - (++count)) + " more doctors to the center");
@@ -106,8 +106,8 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
 
             if (!(list.isEmpty())){
                 for (Doctor doctor:list) {
-                    if (medicalLicence.equals(doctor.getMedicalLicenseNumber())) {
-                        System.out.println("Do you want to delete doctor " + doctor.getName() + " from the center?(Y/N)");
+                    if (medicalLicence.equals(doctor.get_medicalLicenseNumber())) {
+                        System.out.println("Do you want to delete doctor " + doctor.get_name() + " from the center?(Y/N)");
                         String ans = scanner.next();
 
                         if (ans.equalsIgnoreCase("y")) {
@@ -150,7 +150,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
                 Collections.sort(sortedArrayList);
                 for (Doctor doc:
                         sortedArrayList) {
-                    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %s\n", doc.getName(), doc.getSurname(), doc.getGender(), dateFormat.format(doc.getdOB()), doc.getMobileNumber(), doc.getMedicalLicenseNumber(), doc.getSpecialization());
+                    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %s\n", doc.get_name(), doc.get_surname(), doc.get_gender(), dateFormat.format(doc.get_dOB()), doc.get_mobileNumber(), doc.get_medicalLicenseNumber(), doc.get_specialization());
                 }
             }
             System.out.println("\n                                                      ***");
