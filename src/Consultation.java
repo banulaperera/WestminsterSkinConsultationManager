@@ -1,20 +1,11 @@
 import java.util.Date;
 
 public class Consultation extends Doctor{
-    private String _timeSlot;
-    private String _cost;
+    private final String _timeSlot;
+    private final String _cost;
     private String _notes;
-    private Date _date;
-
-    public void set_date(Date _date) {
-        this._date = _date;
-    }
-
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
-
-    private String doctorName;
+    private final Date _date;
+    private final String doctorName;
 
     public Consultation(String name, String specialization, Date date, String time, String notes, String costOfTheConsultation){
         this.doctorName = name;
@@ -28,16 +19,8 @@ public class Consultation extends Doctor{
         return _timeSlot;
     }
 
-    public void set_timeSlot(String _timeSlot) {
-        this._timeSlot = _timeSlot;
-    }
-
     public String get_cost() {
         return _cost;
-    }
-
-    public void set_cost(String _cost) {
-        this._cost = _cost;
     }
 
     public String get_notes() {

@@ -4,6 +4,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class ConsultationGUI extends JFrame {
     public static final ArrayList<Patient> patientList = new ArrayList<>();
@@ -13,8 +14,9 @@ public class ConsultationGUI extends JFrame {
     private final JLabel labelFieldForDOB, labelForDate;
     private final JTextArea textAreaForNotes;
     private final JRadioButton male;
-    private String gender, dob, pickedDate;
+    private String gender, dob, pickedDate, nameOfTheSelectedDoctor;
     private Date date, pickedDate1;
+    private JComboBox comboForSpecialization, comboBoxForDocName, jComboBoxForTime;
     private final DefaultComboBoxModel<Object> docNames = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Object> specializationBoxModel = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Object> timeSlotBoxModel = new DefaultComboBoxModel<>();
@@ -238,10 +240,10 @@ public class ConsultationGUI extends JFrame {
     }
 
     private JComboBox DoctorNames() {
-        JComboBox jComboBox = new JComboBox(docNames);
-        jComboBox.setBounds(1190, 423, 200, 50);
-        jComboBox.setFont(new Font("Arial", Font.PLAIN, 15));
-        return jComboBox;
+        comboBoxForDocName = new JComboBox(docNames);
+        comboBoxForDocName.setBounds(1190, 423, 200, 50);
+        comboBoxForDocName.setFont(new Font("Arial", Font.PLAIN, 15));
+        return comboBoxForDocName;
     }
 
     private JComboBox DoctorSpecialization() {
@@ -271,57 +273,21 @@ public class ConsultationGUI extends JFrame {
             }
         }
 
-        JComboBox jComboBox = new JComboBox(specializationBoxModel);
-        jComboBox.setBounds(790, 423, 200, 50);
-        jComboBox.setFont(new Font("Arial", Font.PLAIN, 15));
-        jComboBox.addActionListener(ae -> {
-            if (ae.getSource() == jComboBox) {
+        comboForSpecialization = new JComboBox(specializationBoxModel);
+        comboForSpecialization.setBounds(790, 423, 200, 50);
+        comboForSpecialization.setFont(new Font("Arial", Font.PLAIN, 15));
+        comboForSpecialization.addActionListener(ae -> {
+            if (ae.getSource() == comboForSpecialization) {
                 docNames.removeAllElements();
                 for (Doctor doctor :
                         WestminsterSkinConsultationManager.list) {
-                    if (doctor.get_specialization().equals(jComboBox.getSelectedItem())) {
+                    if (doctor.get_specialization().equals(comboForSpecialization.getSelectedItem())) {
                         docNames.addElement(doctor.get_name() + " " + doctor.get_surname());
                     }
                 }
             }
         });
-        return jComboBox;
-    }
-
-    private JComboBox TimeSlot() {
-        timeSlotBoxModel.addElement("-- Select --");
-        timeSlotBoxModel.addElement("8 a.m. - 9 a.m.");
-        timeSlotBoxModel.addElement("9 a.m. - 10 a.m.");
-        timeSlotBoxModel.addElement("10 a.m. - 11 a.m.");
-        timeSlotBoxModel.addElement("11 a.m. - 12 a.m.");
-        timeSlotBoxModel.addElement("2 p.m. - 3 p.m.");
-        timeSlotBoxModel.addElement("3 p.m. - 4 p.m.");
-        timeSlotBoxModel.addElement("4 p.m. - 5 p.m.");
-        timeSlotBoxModel.addElement("5 p.m. - 6 p.m.");
-
-        JComboBox jComboBox = new JComboBox(timeSlotBoxModel);
-        jComboBox.setBounds(1190, 503, 200, 50);
-        jComboBox.setFont(new Font("Arial", Font.PLAIN, 15));
-        return jComboBox;
-    }
-
-    private JPanel RightDownPanel() {
-        final JPanel jPanel = new JPanel();
-        jPanel.setBounds(600, 760, 840, 20);
-        jPanel.setBackground(new Color(123, 173, 244));
-        return jPanel;
-    }
-
-    private JButton ListOfAppointments() {
-        JButton listOfAppointment = new JButton("List of Appointments");
-        listOfAppointment.setBounds(640, 705, 200, 35);
-        listOfAppointment.setFont(new Font("MV Boli", Font.BOLD, 12));
-        listOfAppointment.addActionListener(ae -> {
-            if (ae.getSource() == listOfAppointment) {
-                new AppointmentsGUI();
-            }
-        });
-        return listOfAppointment;
+        return comboForSpecialization;
     }
 
     private JButton Book() {
@@ -360,38 +326,37 @@ public class ConsultationGUI extends JFrame {
 
                     int flag = 0;
 
-                    for (Patient patient:
-                         patientList) {
-                        if (fName.equalsIgnoreCase(patient.get_name()) && lName.equalsIgnoreCase(patient.get_surname())){
+                    for (Patient patient :
+                            patientList) {
+                        if (fName.equalsIgnoreCase(patient.get_name()) && lName.equalsIgnoreCase(patient.get_surname())) {
                             flag = 1;
                             break;
                         }
                     }
                     int yesOrNo;
-                    if (flag == 1){
-                        yesOrNo = JOptionPane.showConfirmDialog(this, "Consultation Fee :- £25\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
-                        if (yesOrNo == 0){
+                    if (flag == 1) {
+                        yesOrNo = JOptionPane.showConfirmDialog(this, "Consultation Fee :- £25\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
+                        if (yesOrNo == 0) {
                             String consultationFee = "£25";
-                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes,consultationFee);
-                            Patient patient = new Patient(fName, lName, date, mobile, gender, patientList.get(patientList.size() - 1).get_id());
+                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee);
+                            Patient patient = new Patient(fName, lName, date, mobile, gender, patientList.size());
                             patientList.add(patient);
                             consultationList.add(consultation);
-                            JOptionPane.showMessageDialog(this,"Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
+                            JOptionPane.showMessageDialog(this, "Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
                         }
-                    }
-                    else{
-                        yesOrNo = JOptionPane.showConfirmDialog(this, "Consultation Fee :- £15\nDo you want to book the consultation?","Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
-                        if (yesOrNo == 0){
+                    } else {
+                        yesOrNo = JOptionPane.showConfirmDialog(this, "Consultation Fee :- £15\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
+                        if (yesOrNo == 0) {
                             String consultationFee = "£15";
                             Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee);
                             Patient patient = new Patient(fName, lName, date, mobile, gender, patientList.size());
                             patientList.add(patient);
                             consultationList.add(consultation);
-                            JOptionPane.showMessageDialog(this,"Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
+                            JOptionPane.showMessageDialog(this, "Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
                         }
                     }
-                    if (yesOrNo == 1){
-                        JOptionPane.showMessageDialog(this,"Cancelled!","ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("cross.png"));
+                    if (yesOrNo == 1) {
+                        JOptionPane.showMessageDialog(this, "Cancelled!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("cross.png"));
                     }
                     SaveInFile();
                     Reset();
@@ -401,6 +366,98 @@ public class ConsultationGUI extends JFrame {
             }
         });
         return book;
+    }
+
+    private JComboBox TimeSlot() {
+        timeSlotBoxModel.addElement("-- Select --");
+        timeSlotBoxModel.addElement("8 a.m. - 9 a.m.");
+        timeSlotBoxModel.addElement("9 a.m. - 10 a.m.");
+        timeSlotBoxModel.addElement("10 a.m. - 11 a.m.");
+        timeSlotBoxModel.addElement("11 a.m. - 12 a.m.");
+        timeSlotBoxModel.addElement("2 p.m. - 3 p.m.");
+        timeSlotBoxModel.addElement("3 p.m. - 4 p.m.");
+        timeSlotBoxModel.addElement("4 p.m. - 5 p.m.");
+        timeSlotBoxModel.addElement("5 p.m. - 6 p.m.");
+
+        jComboBoxForTime = new JComboBox(timeSlotBoxModel);
+        jComboBoxForTime.setBounds(1190, 503, 200, 50);
+        jComboBoxForTime.setFont(new Font("Arial", Font.PLAIN, 15));
+        jComboBoxForTime.addActionListener(ae -> {
+            if (ae.getSource() == jComboBoxForTime) {
+                if (DoctorAvailable()) {
+                    var yesOrNo = JOptionPane.showConfirmDialog(this, "Doctor is not available in selected date and time.\nDo you want allocate another the doctor to this specific date and time?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
+                    if (yesOrNo == 0) {
+                        docNames.removeAllElements();
+                        for (Doctor doc :
+                                WestminsterSkinConsultationManager.list) {
+                            String name = doc.get_name() + " " + doc.get_surname();
+                            if (doc.get_specialization().equals(comboForSpecialization.getSelectedItem()) && !name.equalsIgnoreCase(nameOfTheSelectedDoctor)) {
+                                for (Consultation consultation:
+                                     consultationList) {
+                                    if (name.equalsIgnoreCase(consultation.get_name()) && comboForSpecialization.getSelectedItem().equals(consultation.get_specialization())){
+                                        try {
+                                            if (consultation.get_timeSlot().equals(jComboBoxForTime.getSelectedItem()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.get_date())){
+                                            }
+                                            else {
+                                                docNames.addElement(name);
+                                                break;
+                                            }
+                                        } catch (ParseException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                    else {
+                                        docNames.addElement(name);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (yesOrNo == 1) {
+
+                    }
+                }
+            }
+        });
+        return jComboBoxForTime;
+    }
+
+    private boolean DoctorAvailable() {
+        for (Consultation consultation :
+                consultationList) {
+            try {
+                if (consultation.get_timeSlot().equals(jComboBoxForTime.getSelectedItem()) &&
+                        Objects.equals(comboBoxForDocName.getSelectedItem(), consultation.getDoctorName()) &&
+                        Objects.equals(comboForSpecialization.getSelectedItem(), consultation.get_specialization()) &&
+                        WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.get_date())) {
+                    nameOfTheSelectedDoctor = (String) comboBoxForDocName.getSelectedItem();
+                    return true;
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return false;
+    }
+
+    private JPanel RightDownPanel() {
+        final JPanel jPanel = new JPanel();
+        jPanel.setBounds(600, 760, 840, 20);
+        jPanel.setBackground(new Color(123, 173, 244));
+        return jPanel;
+    }
+
+    private JButton ListOfAppointments() {
+        JButton listOfAppointment = new JButton("List of Appointments");
+        listOfAppointment.setBounds(640, 705, 200, 35);
+        listOfAppointment.setFont(new Font("MV Boli", Font.BOLD, 12));
+        listOfAppointment.addActionListener(ae -> {
+            if (ae.getSource() == listOfAppointment) {
+                new AppointmentsGUI();
+            }
+        });
+        return listOfAppointment;
     }
 
     private JButton ResetButton() {
@@ -416,7 +473,7 @@ public class ConsultationGUI extends JFrame {
         return reset;
     }
 
-    private void Reset(){
+    private void Reset() {
         String def = "";
         textFieldForFName.setText(def);
         textFieldForSurname.setText(def);
@@ -432,6 +489,7 @@ public class ConsultationGUI extends JFrame {
         labelForDate.setText(def);
         textAreaForNotes.setText(def);
     }
+
     public static void SaveInFile() {
         try {
             FileOutputStream fo = new FileOutputStream("PatientList.txt");
@@ -459,21 +517,20 @@ public class ConsultationGUI extends JFrame {
         }
     }
 
-    public static void LoadFromFile(ArrayList<Patient> listOfPatients, ArrayList<Consultation> listOfConsultation){
-        try{
+    public static void LoadFromFile(ArrayList<Patient> listOfPatients, ArrayList<Consultation> listOfConsultation) {
+        try {
             FileInputStream fis = new FileInputStream("PatientList.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             FileInputStream fis1 = new FileInputStream("Consultation.txt");
             ObjectInputStream ois1 = new ObjectInputStream(fis1);
             while (true) {
-                try{
+                try {
                     Patient patient = (Patient) ois.readObject();
                     Consultation consultation = (Consultation) ois1.readObject();
                     listOfPatients.add(patient);
                     listOfConsultation.add(consultation);
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     break;
                 }
             }
@@ -481,7 +538,7 @@ public class ConsultationGUI extends JFrame {
             ois1.close();
             fis.close();
             ois.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

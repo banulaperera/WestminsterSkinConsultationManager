@@ -76,7 +76,7 @@ public class AppointmentsGUI extends JFrame {
         table.getTableHeader().setFont(new Font("Calibri", Font.BOLD,14));
         table.getTableHeader().setPreferredSize(new Dimension(150,50));
         table.getTableHeader().setForeground(new Color(1,6,65));
-        table.setAutoCreateRowSorter(true);
+        table.setAutoCreateRowSorter(false);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.getColumnModel().getColumn(0).setPreferredWidth(50);
         table.getColumnModel().getColumn(1).setPreferredWidth(200);

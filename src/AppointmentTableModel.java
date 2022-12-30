@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AppointmentTableModel extends AbstractTableModel {
-    private String[] columnName = {"ID", "Patient's First Name", "Patient's Last Name", "Date Of Birth", "Gender", "Mobile Number", "Name of the Doctor", "Specialization", "Reserved date", "Reserved Time Slot", "Fee"};
+    private final String[] columnName = {"ID", "Patient's First Name", "Patient's Last Name", "Date Of Birth", "Gender", "Mobile Number", "Name of the Doctor", "Specialization", "Reserved date", "Reserved Time Slot", "Fee"};
     private final ArrayList<Patient> patientList;
     private final ArrayList<Consultation> consultationList;
 
@@ -92,7 +92,7 @@ public class AppointmentTableModel extends AbstractTableModel {
 
     public Class getColumnClass(int col) {
         if (col == 0) {
-            return String.class;
+            return int.class;
         } else if (col == 1) {
             return String.class;
         } else if (col == 2) {
