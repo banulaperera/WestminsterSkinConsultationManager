@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AppointmentsGUI extends JFrame {
     AppointmentsGUI(){
@@ -78,7 +80,7 @@ public class AppointmentsGUI extends JFrame {
         table.getTableHeader().setForeground(new Color(1,6,65));
         table.setAutoCreateRowSorter(false);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        table.getColumnModel().getColumn(0).setPreferredWidth(50);
+        table.getColumnModel().getColumn(0).setPreferredWidth(100);
         table.getColumnModel().getColumn(1).setPreferredWidth(200);
         table.getColumnModel().getColumn(2).setPreferredWidth(200);
         table.getColumnModel().getColumn(3).setPreferredWidth(120);
@@ -89,6 +91,31 @@ public class AppointmentsGUI extends JFrame {
         table.getColumnModel().getColumn(8).setPreferredWidth(200);
         table.getColumnModel().getColumn(9).setPreferredWidth(170);
         table.getColumnModel().getColumn(10).setPreferredWidth(60);
+
+        JMenuItem add = new JMenuItem("Add new Consultation");
+        JMenuItem delete = new JMenuItem("Delete selected Consultation");
+
+        add.addActionListener(ae -> {
+            new ConsultationGUI();
+        });
+
+        delete.addActionListener(ae -> {
+            if (table.getSelectedRow() != -1){
+
+            }
+        });
+        JPopupMenu jPopupMenu = new JPopupMenu();
+        jPopupMenu.add(add);
+        jPopupMenu.add(new JSeparator());
+        jPopupMenu.add(delete);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)){
+                    jPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
 
         JScrollPane jScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jScrollPane.setBounds(60, 85, 1170, 500);

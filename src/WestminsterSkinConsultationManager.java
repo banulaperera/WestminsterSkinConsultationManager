@@ -193,6 +193,8 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
                     break;
                 }
             }
+            fis.close();
+            ois.close();
         }
         catch (IOException e){
             System.out.println("File not found!");
