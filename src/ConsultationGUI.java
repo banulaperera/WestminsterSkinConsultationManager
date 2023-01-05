@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 
 public class ConsultationGUI extends JFrame {
     public static final ArrayList<Patient> patientList = new ArrayList<>();
@@ -17,8 +18,8 @@ public class ConsultationGUI extends JFrame {
     private final DefaultComboBoxModel<Object> docNames = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Object> specializationBoxModel = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Object> timeSlotBoxModel = new DefaultComboBoxModel<>();
-    private JButton backToHomeBtn;
-    private String gender, dob, pickedDate, nameOfTheSelectedDoctor;
+    private JButton backToHomeBtn, fileChooser;
+    private String gender, dob, pickedDate;
     private Date date, pickedDate1;
     private JComboBox comboForSpecialization, comboBoxForDocName, jComboBoxForTime;
 
@@ -143,7 +144,7 @@ public class ConsultationGUI extends JFrame {
         labelForImg.setBounds(1040, 590, 170, 35);
         labelForImg.setFont(new Font("MV Boli", Font.PLAIN, 18));
 
-        JButton fileChooser = new JButton("Browse");
+        fileChooser = new JButton("Browse");
         fileChooser.setIcon(new ImageIcon("folder.png"));
         fileChooser.setBounds(1210, 590, 150, 35);
         fileChooser.addActionListener(ae -> {
@@ -392,33 +393,33 @@ public class ConsultationGUI extends JFrame {
                     }
                     int yesOrNo;
                     if (flag == 1) {
-                        yesOrNo = JOptionPane.showConfirmDialog(this, "Consultation Fee :- £25\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
+                        yesOrNo = JOptionPane.showConfirmDialog(null, "Consultation Fee :- £25\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
                         if (yesOrNo == 0) {
                             String consultationFee = "£25";
                             Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee);
                             Patient patient = new Patient(fName, lName, date, mobile, gender);
                             patientList.add(patient);
                             consultationList.add(consultation);
-                            JOptionPane.showMessageDialog(this, "Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
+                            JOptionPane.showMessageDialog(null, "Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
                         }
                     } else {
-                        yesOrNo = JOptionPane.showConfirmDialog(this, "Consultation Fee :- £15\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
+                        yesOrNo = JOptionPane.showConfirmDialog(null, "Consultation Fee :- £15\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
                         if (yesOrNo == 0) {
                             String consultationFee = "£15";
                             Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee);
                             Patient patient = new Patient(fName, lName, date, mobile, gender);
                             patientList.add(patient);
                             consultationList.add(consultation);
-                            JOptionPane.showMessageDialog(this, "Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
+                            JOptionPane.showMessageDialog(null, "Your consultation reserved Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
                         }
                     }
                     if (yesOrNo == 1) {
-                        JOptionPane.showMessageDialog(this, "Cancelled!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("cross.png"));
+                        JOptionPane.showMessageDialog(null, "Cancelled!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("cross.png"));
                     }
                     SaveInFile();
                     Reset();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Please fill all the fields.", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
+                    JOptionPane.showMessageDialog(null, "Please fill all the fields!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
                 }
             }
         });
@@ -426,8 +427,6 @@ public class ConsultationGUI extends JFrame {
     }
 
     private JComboBox TimeSlot() {
-        ArrayList<String> doctors = new ArrayList<>();
-
         timeSlotBoxModel.addElement("-- Select --");
         timeSlotBoxModel.addElement("8 a.m. - 9 a.m.");
         timeSlotBoxModel.addElement("9 a.m. - 10 a.m.");
@@ -447,43 +446,45 @@ public class ConsultationGUI extends JFrame {
                     var yesOrNo = JOptionPane.showConfirmDialog(this, "Doctor is not available in selected date and time.\nDo you want allocate another the doctor to this specific date and time?", "ALERT!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("bell.png"));
                     if (yesOrNo == 0) {
                         docNames.removeAllElements();
-                        for (Doctor doc : WestminsterSkinConsultationManager.list) {
-                            String name = doc.get_name() + " " + doc.get_surname();
-                            if (doc.get_specialization().equals(comboForSpecialization.getSelectedItem()) && !name.equalsIgnoreCase(nameOfTheSelectedDoctor)) {
-                                for (Consultation consultation : consultationList) {
-                                    if (name.equalsIgnoreCase(consultation.get_name()) && Objects.equals(comboForSpecialization.getSelectedItem(), consultation.get_specialization())) {
-                                        try {
-                                            if (!(consultation.get_timeSlot().equals(jComboBoxForTime.getSelectedItem()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.get_date()))) {
-                                                doctors.add(name);
-                                                break;
-                                            }
-                                        } catch (ParseException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    } else {
-                                        doctors.add(name);
-                                        break;
-                                    }
+                        ArrayList<String> unAvailableDoc = new ArrayList<>();
+                        ArrayList<String> specificDoctors = new ArrayList<>();
+                        for (Consultation consultation : consultationList) {
+                            try {
+                                if (Objects.equals(comboForSpecialization.getSelectedItem(), consultation.get_specialization()) && consultation.get_timeSlot().equals(jComboBoxForTime.getSelectedItem()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.get_date())) {
+                                    unAvailableDoc.add(consultation.getDoctorName());
+                                }
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        for (Doctor doctor : WestminsterSkinConsultationManager.list) {
+                            if (Objects.equals(comboForSpecialization.getSelectedItem(), doctor.get_specialization())) {
+                                specificDoctors.add(doctor.get_name() + " " + doctor.get_surname());
+                            }
+                        }
+                        ArrayList<String> temp = new ArrayList<>(specificDoctors);
+                        for (String name : temp) {
+                            for (String unAvailable : unAvailableDoc) {
+                                if (name.equals(unAvailable)) {
+                                    specificDoctors.remove(name);
                                 }
                             }
+                        }
+                        for (String name : specificDoctors) {
+                            docNames.addElement(name);
+                        }
+                        if (docNames.getSize() == 0) {
+                            docNames.addElement("-- No data --");
+                            JOptionPane.showMessageDialog(null, "All the doctors are reserved for given time!\nPlease select different date and time.", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("no-results.png"));
+                        }
+                        else {
+                            int nextInt = new Random().nextInt(specificDoctors.size());
+                            docNames.setSelectedItem(specificDoctors.get(nextInt));
                         }
                     }
                 }
             }
         });
-        for (String name :
-                doctors) {
-            for (Consultation consul :
-                    consultationList) {
-                try {
-                    if (!(name.equals(consul.get_name()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consul.get_date()) && consul.get_timeSlot().equals(jComboBoxForTime.getSelectedItem()))){
-                        docNames.addElement(name);
-                    }
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
         return jComboBoxForTime;
     }
 
@@ -491,7 +492,6 @@ public class ConsultationGUI extends JFrame {
         for (Consultation consultation : consultationList) {
             try {
                 if (consultation.get_timeSlot().equals(jComboBoxForTime.getSelectedItem()) && Objects.equals(comboBoxForDocName.getSelectedItem(), consultation.getDoctorName()) && Objects.equals(comboForSpecialization.getSelectedItem(), consultation.get_specialization()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.get_date())) {
-                    nameOfTheSelectedDoctor = (String) comboBoxForDocName.getSelectedItem();
                     return false;
                 }
             } catch (ParseException e) {

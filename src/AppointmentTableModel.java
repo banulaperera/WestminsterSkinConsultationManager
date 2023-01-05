@@ -60,8 +60,7 @@ public class AppointmentTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Patient row = ConsultationGUI.patientList.get(rowIndex);
-        if (0 == columnIndex) {
-        } else if (1 == columnIndex) {
+        if (1 == columnIndex) {
             row.set_name((String) aValue);
         } else if (2 == columnIndex) {
             row.set_surname((String) aValue);
@@ -115,5 +114,11 @@ public class AppointmentTableModel extends AbstractTableModel {
         } else {
             return null;
         }
+    }
+
+    public void deleteRow(int index){
+        patientList.remove(index);
+        consultationList.remove(index);
+        fireTableDataChanged();
     }
 }

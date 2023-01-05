@@ -92,21 +92,24 @@ public class AppointmentsGUI extends JFrame {
         table.getColumnModel().getColumn(9).setPreferredWidth(170);
         table.getColumnModel().getColumn(10).setPreferredWidth(60);
 
-        JMenuItem add = new JMenuItem("Add new Consultation");
         JMenuItem delete = new JMenuItem("Delete selected Consultation");
-
-        add.addActionListener(ae -> {
-            new ConsultationGUI();
-        });
-
+        delete.setIcon(new ImageIcon("delete.png"));
+        delete.setIconTextGap(20);
         delete.addActionListener(ae -> {
             if (table.getSelectedRow() != -1){
+                int yesOrNo = JOptionPane.showConfirmDialog(null, "Do you want to delete the Consultation?", "CONFIRM", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
+                if (yesOrNo == 0){
+                    appointmentTableModel.deleteRow(table.getSelectedRow());
+                    ConsultationGUI.SaveInFile();
+                    JOptionPane.showMessageDialog(null, "Deleted Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
+                }
 
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Please select the row to be deleted!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
             }
         });
         JPopupMenu jPopupMenu = new JPopupMenu();
-        jPopupMenu.add(add);
-        jPopupMenu.add(new JSeparator());
         jPopupMenu.add(delete);
         table.addMouseListener(new MouseAdapter() {
             @Override
