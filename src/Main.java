@@ -43,6 +43,7 @@ public class Main {
                         throw new RuntimeException(e);
                     }
                     new HomePageGUI();
+//                    new PatientDetailsGUI();
                 });
                 case "Q" -> ans = false;
             }

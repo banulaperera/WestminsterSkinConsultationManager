@@ -1,7 +1,9 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.*;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,10 +20,12 @@ public class ConsultationGUI extends JFrame {
     private final DefaultComboBoxModel<Object> docNames = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Object> specializationBoxModel = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Object> timeSlotBoxModel = new DefaultComboBoxModel<>();
-    private JButton backToHomeBtn, fileChooser;
-    private String gender, dob, pickedDate;
+    private final JButton fileChooser;
+    private JButton backToHomeBtn;
+    private String gender, dob, pickedDate, filePath, fName, lName;
     private Date date, pickedDate1;
     private JComboBox comboForSpecialization, comboBoxForDocName, jComboBoxForTime;
+    private File destinationFile;
 
     ConsultationGUI() {
         JLabel patientDetails = new JLabel("Patient Details");
@@ -147,20 +151,7 @@ public class ConsultationGUI extends JFrame {
         fileChooser = new JButton("Browse");
         fileChooser.setIcon(new ImageIcon("folder.png"));
         fileChooser.setBounds(1210, 590, 150, 35);
-        fileChooser.addActionListener(ae -> {
-            if (ae.getSource() == fileChooser) {
-                JFileChooser jFileChooser = new JFileChooser();
-                FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
-                jFileChooser.addChoosableFileFilter(fileNameExtensionFilter);
-                int value = jFileChooser.showSaveDialog(null);
-
-                if (value == JFileChooser.APPROVE_OPTION) {
-                    File selectedImage = jFileChooser.getSelectedFile();
-                    String filePath = selectedImage.getAbsolutePath();
-                    JOptionPane.showMessageDialog(null, filePath);
-                }
-            }
-        });
+        fileChooser.addActionListener(this::actionPerformed);
 
         this.setTitle("Westminster Skin Consultation Manager");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -283,7 +274,6 @@ public class ConsultationGUI extends JFrame {
             }
         });
         JLabel label = new JLabel("Book a Consultation");
-//        label.setIcon(new ImageIcon("ConsultationIcon.png"));
         label.setBounds(0, 5, 840, 50);
         label.setForeground(Color.BLACK);
         label.setFont(new Font("MV Boli", Font.BOLD, 30));
@@ -356,9 +346,10 @@ public class ConsultationGUI extends JFrame {
         book.setForeground(Color.BLUE);
         book.addActionListener(ae -> {
             if (ae.getSource() == book) {
+                byte[] image;
                 if (!textFieldForFName.getText().isEmpty() && !textFieldForSurname.getText().isEmpty() && !labelFieldForDOB.getText().isEmpty() && !textFieldForMobile.getText().isEmpty()) {
-                    String fName = textFieldForFName.getText();
-                    String lName = textFieldForSurname.getText();
+                    fName = textFieldForFName.getText();
+                    lName = textFieldForSurname.getText();
                     try {
                         dob = labelFieldForDOB.getText();
                         date = WestminsterSkinConsultationManager.dateFormat.parse(dob);
@@ -382,7 +373,7 @@ public class ConsultationGUI extends JFrame {
                     }
                     String time = (String) TimeSlot().getSelectedItem();
                     String notes = textAreaForNotes.getText();
-
+                    image = ImageEncryption();
                     int flag = 0;
 
                     for (Patient patient : patientList) {
@@ -396,7 +387,7 @@ public class ConsultationGUI extends JFrame {
                         yesOrNo = JOptionPane.showConfirmDialog(null, "Consultation Fee :- £25\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
                         if (yesOrNo == 0) {
                             String consultationFee = "£25";
-                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee);
+                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee, image, destinationFile);
                             Patient patient = new Patient(fName, lName, date, mobile, gender);
                             patientList.add(patient);
                             consultationList.add(consultation);
@@ -406,7 +397,7 @@ public class ConsultationGUI extends JFrame {
                         yesOrNo = JOptionPane.showConfirmDialog(null, "Consultation Fee :- £15\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
                         if (yesOrNo == 0) {
                             String consultationFee = "£15";
-                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee);
+                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee, image, destinationFile);
                             Patient patient = new Patient(fName, lName, date, mobile, gender);
                             patientList.add(patient);
                             consultationList.add(consultation);
@@ -476,8 +467,7 @@ public class ConsultationGUI extends JFrame {
                         if (docNames.getSize() == 0) {
                             docNames.addElement("-- No data --");
                             JOptionPane.showMessageDialog(null, "All the doctors are reserved for given time!\nPlease select different date and time.", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("no-results.png"));
-                        }
-                        else {
+                        } else {
                             int nextInt = new Random().nextInt(specificDoctors.size());
                             docNames.setSelectedItem(specificDoctors.get(nextInt));
                         }
@@ -549,4 +539,61 @@ public class ConsultationGUI extends JFrame {
         labelForDate.setText(def);
         textAreaForNotes.setText(def);
     }
+
+    private void actionPerformed(ActionEvent e) {
+        if (e.getSource() == fileChooser) {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.setCurrentDirectory(new File("/Users/banulaperera/Pictures"));
+            jFileChooser.setDialogTitle("Upload an Image");
+            jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Images", "png", "jpg", "jpeg");
+            jFileChooser.addChoosableFileFilter(fileNameExtensionFilter);
+            jFileChooser.setAcceptAllFileFilterUsed(true);
+            int value = jFileChooser.showSaveDialog(null);
+
+            if (value == JFileChooser.APPROVE_OPTION) {
+                File selectedImage = jFileChooser.getSelectedFile();
+                filePath = selectedImage.getAbsolutePath();
+                JOptionPane.showMessageDialog(null, filePath);
+            }
+        }
+    }
+
+    private byte[] ImageEncryption() {
+        //saving image
+        String newPath = "/Users/banulaperera/IdeaProjects/CourseWork/ConsultationImages";
+        File directory = new File(newPath);
+        if (!directory.exists()) directory.mkdir();
+        File sourceFile;
+        String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
+        sourceFile = new File(filePath);
+        destinationFile = new File(newPath + "/" + fName + "." + extension);
+        try {
+            Files.copy(sourceFile.toPath(), destinationFile.toPath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        byte[] bytes;
+        try {
+            FileInputStream fileInputStream = new FileInputStream(destinationFile);
+            bytes = new byte[fileInputStream.available()];
+            fileInputStream.read(bytes);
+
+            int i = 0;
+            for (byte b : bytes) {
+                bytes[i] = (byte) (b ^ 50);
+                i++;
+            }
+            fileInputStream.close();
+
+            FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
+            fileOutputStream.write(bytes);
+            fileOutputStream.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return bytes;
+    }
+
 }

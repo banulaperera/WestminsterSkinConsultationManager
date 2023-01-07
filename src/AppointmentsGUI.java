@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
 
 public class AppointmentsGUI extends JFrame {
     AppointmentsGUI(){
@@ -106,11 +107,48 @@ public class AppointmentsGUI extends JFrame {
 
             }
             else {
-                JOptionPane.showMessageDialog(null, "Please select the row to be deleted!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
+                JOptionPane.showMessageDialog(null, "Please select a row to be deleted!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
             }
         });
+
+        JMenuItem image = new JMenuItem("Additional Details");
+        image.setIcon(new ImageIcon("image.png"));
+        image.setIconTextGap(20);
+        image.addActionListener(ae -> {
+            if (table.getSelectedRow() != -1){
+                Consultation consultation = ConsultationGUI.consultationList.get(table.getSelectedRow());
+                byte[] bytes;
+                try {
+                    if (consultation.getFileDestination() != null){
+                        bytes = consultation.getBytes();
+                        byte[] temp = new byte[bytes.length];
+
+                        for (int i = 0; i < bytes.length; i++){
+                            temp[i] = (byte) (bytes[i] ^ 50);
+                        }
+                        FileOutputStream fileOutputStream = new FileOutputStream(consultation.getFileDestination());
+                        fileOutputStream.write(temp);
+                        fileOutputStream.close();
+                        String path = consultation.getFileDestination().getPath();
+                        new PatientDetailsGUI(path);
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Image not found!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Please select a row!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
+            }
+        });
+
         JPopupMenu jPopupMenu = new JPopupMenu();
         jPopupMenu.add(delete);
+        JSeparator jSeparator = new JSeparator(SwingConstants.HORIZONTAL);
+        jPopupMenu.add(jSeparator);
+        jPopupMenu.add(image);
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
