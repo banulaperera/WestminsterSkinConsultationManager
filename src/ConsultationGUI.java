@@ -25,7 +25,7 @@ public class ConsultationGUI extends JFrame {
     private String gender, dob, pickedDate, filePath, fName, lName;
     private Date date, pickedDate1;
     private JComboBox comboForSpecialization, comboBoxForDocName, jComboBoxForTime;
-    private File destinationFile;
+    private File destinationFile, sourceFile;;
 
     ConsultationGUI() {
         JLabel patientDetails = new JLabel("Patient Details");
@@ -538,6 +538,9 @@ public class ConsultationGUI extends JFrame {
         TimeSlot();
         labelForDate.setText(def);
         textAreaForNotes.setText(def);
+        sourceFile = null;
+        destinationFile = null;
+        filePath = null;
     }
 
     private void actionPerformed(ActionEvent e) {
@@ -561,39 +564,41 @@ public class ConsultationGUI extends JFrame {
 
     private byte[] ImageEncryption() {
         //saving image
-        String newPath = "/Users/banulaperera/IdeaProjects/CourseWork/ConsultationImages";
-        File directory = new File(newPath);
-        if (!directory.exists()) directory.mkdir();
-        File sourceFile;
-        String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
-        sourceFile = new File(filePath);
-        destinationFile = new File(newPath + "/" + fName + "." + extension);
-        try {
-            Files.copy(sourceFile.toPath(), destinationFile.toPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        try{
+            String newPath = "/Users/banulaperera/IdeaProjects/CourseWork/ConsultationImages";
+            File directory = new File(newPath);
+            if (!directory.exists()) directory.mkdir();
 
-        byte[] bytes;
-        try {
-            FileInputStream fileInputStream = new FileInputStream(destinationFile);
-            bytes = new byte[fileInputStream.available()];
-            fileInputStream.read(bytes);
-
-            int i = 0;
-            for (byte b : bytes) {
-                bytes[i] = (byte) (b ^ 50);
-                i++;
+            String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
+            sourceFile = new File(filePath);
+            destinationFile = new File(newPath + "/" + fName + "." + extension);
+            try {
+                Files.copy(sourceFile.toPath(), destinationFile.toPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            fileInputStream.close();
 
-            FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
-            fileOutputStream.write(bytes);
-            fileOutputStream.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return bytes;
+            byte[] bytes;
+            try {
+                FileInputStream fileInputStream = new FileInputStream(destinationFile);
+                bytes = new byte[fileInputStream.available()];
+                fileInputStream.read(bytes);
+
+                int i = 0;
+                for (byte b : bytes) {
+                    bytes[i] = (byte) (b ^ 50);
+                    i++;
+                }
+                fileInputStream.close();
+
+                FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
+                fileOutputStream.write(bytes);
+                fileOutputStream.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return bytes;
+        } catch (RuntimeException ignored) { }
+        return new byte[0];
     }
-
 }

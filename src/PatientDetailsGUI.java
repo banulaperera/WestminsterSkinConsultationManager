@@ -3,7 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class PatientDetailsGUI extends JFrame {
-    PatientDetailsGUI(String imageSource){
+    PatientDetailsGUI(String imageSource, int id){
         final JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon("patientDetails.jpeg"));
         jLabel.setBounds(0, 0, 700, 750);
@@ -26,6 +26,7 @@ public class PatientDetailsGUI extends JFrame {
         patientId.setOpaque(true);
         patientId.setForeground(Color.BLACK);
         patientId.setFont(new Font("MV Boli", Font.PLAIN, 20));
+        patientId.setText(String.valueOf(id));
         jLabel.add(patientId);
 
         JLabel specialNoteLabel = new JLabel("Special Notes");
@@ -34,13 +35,21 @@ public class PatientDetailsGUI extends JFrame {
         specialNoteLabel.setFont(new Font("MV Boli", Font.BOLD, 25));
         jLabel.add(specialNoteLabel);
 
+        Border border = BorderFactory.createLineBorder(Color.black, 2);
+
         JTextArea textArea = new JTextArea(5, 1);
         textArea.setBounds(200,300,300,100);
-        Border border = BorderFactory.createLineBorder(Color.black, 2);
+
+        textArea.setLineWrap(true);
         textArea.setFont(new Font("MV Boli", Font.PLAIN, 20));
-        textArea.setBorder(border);
+        textArea.setBackground(Color.WHITE);
+        textArea.setOpaque(true);
         textArea.setEditable(false);
-        jLabel.add(textArea);
+
+        JScrollPane textAreaScroll = new JScrollPane(textArea);
+        textAreaScroll.setBounds(200, 300, 300, 100);
+        textAreaScroll.setBorder(border);
+        jLabel.add(textAreaScroll);
 
         JLabel patientsImage = new JLabel("Patient's Image");
         patientsImage.setBounds(255, 430, 200, 25);

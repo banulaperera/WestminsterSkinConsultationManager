@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
 
 public class AppointmentsGUI extends JFrame {
-    AppointmentsGUI(){
+    AppointmentsGUI() {
         this.setTitle("Westminster Skin Consultation Manager");
         this.setSize(1300, 683);
         this.setResizable(false);
@@ -18,67 +18,69 @@ public class AppointmentsGUI extends JFrame {
         this.add(RightPanel());
     }
 
-    private JPanel UpperPanel(){
+    private JPanel UpperPanel() {
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon("AppointmentU.jpeg"));
-        jLabel.setBounds(0,0,1300,85);
+        jLabel.setBounds(0, 0, 1300, 85);
 
         JLabel jLabel1 = new JLabel();
         jLabel1.setIcon(new ImageIcon("ConsultationIcon.png"));
-        jLabel1.setBounds(60,5,70,70);
+        jLabel1.setBounds(60, 5, 70, 70);
 
         JPanel jPanel = new JPanel();
-        jPanel.setBounds(0,0,1300,85);
+        jPanel.setBounds(0, 0, 1300, 85);
         jLabel.add(jLabel1);
         jPanel.add(jLabel);
         return jPanel;
     }
 
-    private JPanel LeftPanel(){
+    private JPanel LeftPanel() {
         JLabel jLabel = new JLabel();
-        jLabel.setBounds(0,0,60,683);
+        jLabel.setBounds(0, 0, 60, 683);
         jLabel.setIcon(new ImageIcon("AppointmentL.jpeg"));
 
         JPanel jPanel = new JPanel();
-        jPanel.setBounds(0,80,60,683);
+        jPanel.setBounds(0, 80, 60, 683);
         jPanel.add(jLabel);
         return jPanel;
     }
-    private JPanel RightPanel(){
+
+    private JPanel RightPanel() {
         JLabel jLabel = new JLabel();
-        jLabel.setBounds(0,0,70,500);
+        jLabel.setBounds(0, 0, 70, 500);
         jLabel.setIcon(new ImageIcon("AppointmentR.jpeg"));
 
         JPanel jPanel = new JPanel();
-        jPanel.setBounds(1230,80,70,500);
+        jPanel.setBounds(1230, 80, 70, 500);
         jPanel.add(jLabel);
         return jPanel;
     }
 
-    private JPanel DownPanel(){
+    private JPanel DownPanel() {
         JLabel jLabel = new JLabel();
-        jLabel.setBounds(0,0,1300,85);
+        jLabel.setBounds(0, 0, 1300, 85);
         jLabel.setIcon(new ImageIcon("AppointmentB.jpeg"));
 
         JPanel jPanel = new JPanel();
-        jPanel.setBounds(60,580,1300,98);
+        jPanel.setBounds(60, 580, 1300, 98);
         jPanel.add(jLabel);
         return jPanel;
     }
-    private JScrollPane Table(){
+
+    private JScrollPane Table() {
         AppointmentTableModel appointmentTableModel = new AppointmentTableModel(ConsultationGUI.patientList, ConsultationGUI.consultationList);
 
         JTable table = new JTable(appointmentTableModel);
         table.setBackground(Color.WHITE);
         table.setForeground(Color.BLACK);
-        table.setSelectionBackground(new Color(236,150,129));
+        table.setSelectionBackground(new Color(236, 150, 129));
         table.setSelectionForeground(Color.BLACK);
         table.setGridColor(Color.BLACK);
-        table.setFont(new Font("Calibri", Font.PLAIN,13));
+        table.setFont(new Font("Calibri", Font.PLAIN, 13));
         table.setRowHeight(40);
-        table.getTableHeader().setFont(new Font("Calibri", Font.BOLD,14));
-        table.getTableHeader().setPreferredSize(new Dimension(150,50));
-        table.getTableHeader().setForeground(new Color(1,6,65));
+        table.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 14));
+        table.getTableHeader().setPreferredSize(new Dimension(150, 50));
+        table.getTableHeader().setForeground(new Color(1, 6, 65));
         table.setAutoCreateRowSorter(false);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -97,16 +99,15 @@ public class AppointmentsGUI extends JFrame {
         delete.setIcon(new ImageIcon("delete.png"));
         delete.setIconTextGap(20);
         delete.addActionListener(ae -> {
-            if (table.getSelectedRow() != -1){
+            if (table.getSelectedRow() != -1) {
                 int yesOrNo = JOptionPane.showConfirmDialog(null, "Do you want to delete the Consultation?", "CONFIRM", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
-                if (yesOrNo == 0){
+                if (yesOrNo == 0) {
                     appointmentTableModel.deleteRow(table.getSelectedRow());
                     ConsultationGUI.SaveInFile();
                     JOptionPane.showMessageDialog(null, "Deleted Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
                 }
 
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Please select a row to be deleted!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
             }
         });
@@ -115,31 +116,32 @@ public class AppointmentsGUI extends JFrame {
         image.setIcon(new ImageIcon("image.png"));
         image.setIconTextGap(20);
         image.addActionListener(ae -> {
-            if (table.getSelectedRow() != -1){
+            if (table.getSelectedRow() != -1) {
                 Consultation consultation = ConsultationGUI.consultationList.get(table.getSelectedRow());
+                Patient patient = ConsultationGUI.patientList.get(table.getSelectedRow());
                 byte[] bytes;
                 try {
-                    if (consultation.getFileDestination() != null){
+                    if (consultation.getFileDestination() != null) {
                         bytes = consultation.getBytes();
                         byte[] temp = new byte[bytes.length];
 
-                        for (int i = 0; i < bytes.length; i++){
+                        for (int i = 0; i < bytes.length; i++) {
                             temp[i] = (byte) (bytes[i] ^ 50);
                         }
                         FileOutputStream fileOutputStream = new FileOutputStream(consultation.getFileDestination());
                         fileOutputStream.write(temp);
                         fileOutputStream.close();
                         String path = consultation.getFileDestination().getPath();
-                        new PatientDetailsGUI(path);
-                    }else {
+                        new PatientDetailsGUI(path, patient.get_id());
+
+                    } else {
                         JOptionPane.showMessageDialog(null, "Image not found!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Please select a row!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
             }
         });
@@ -152,7 +154,7 @@ public class AppointmentsGUI extends JFrame {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e)){
+                if (SwingUtilities.isRightMouseButton(e)) {
                     jPopupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
