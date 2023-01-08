@@ -1,16 +1,18 @@
 import java.util.ArrayList;
 import java.util.Collections;
+
 public class Encryption {
-    private final ArrayList<Character> list;
+    private static ArrayList<Character> list;
     private ArrayList<Character> shuffleList;
     private char aChar;
-    private char[] letters;
-    Encryption(){
+
+    Encryption() {
         list = new ArrayList<>();
         shuffleList = new ArrayList<>();
         aChar = ' ';
     }
-    public ArrayList<Character> Key(){
+
+    public ArrayList<Character> Key() {
         aChar = ' ';
         list.clear();
         shuffleList.clear();
@@ -23,11 +25,12 @@ public class Encryption {
         Collections.shuffle(shuffleList);
         return shuffleList;
     }
-    public char[] Encrypt(String note, ArrayList<Character> key){
-        letters = note.toCharArray();
+
+    public char[] Encrypt(String note, ArrayList<Character> key) {
+        char[] letters = note.toCharArray();
         for (int i = 0; i < letters.length; i++) {
             for (int j = 0; j < list.size(); j++) {
-                if (letters[i] == list.get(j)){
+                if (letters[i] == list.get(j)) {
                     letters[i] = key.get(j);
                     break;
                 }
@@ -35,16 +38,27 @@ public class Encryption {
         }
         return letters;
     }
-    public void Decrypt(char[] encryptedList, ArrayList<Character> key){
-        char[] list;
-        list = encryptedList;
-        for (int i = 0; i < list.length; i++) {
-            for (Character character : key) {
-                if (list[i] == character) {
-                    letters[i] = character;
+
+    public String Decrypt(char[] encryptedList, ArrayList<Character> key) {
+        char[] letters;
+        letters = encryptedList;
+        aChar = ' ';
+        list.clear();
+
+        for (int i = 32; i < 127; i++) {
+            list.add(aChar);
+            aChar++;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (char letter : letters) {
+            for (int j = 0; j < key.size(); j++) {
+                if (letter == key.get(j)) {
+                    builder.append(list.get(j));
                     break;
                 }
             }
         }
+        return builder.toString();
     }
 }

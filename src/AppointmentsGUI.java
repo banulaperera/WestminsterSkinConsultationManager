@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class AppointmentsGUI extends JFrame {
     AppointmentsGUI() {
@@ -121,7 +122,7 @@ public class AppointmentsGUI extends JFrame {
                 Patient patient = ConsultationGUI.patientList.get(table.getSelectedRow());
                 byte[] bytes;
                 try {
-                    if (consultation.getFileDestination() != null) {
+                    if (consultation.getFileDestination() != null || consultation.getChars() != null) {
                         bytes = consultation.getBytes();
                         byte[] temp = new byte[bytes.length];
 
@@ -132,15 +133,16 @@ public class AppointmentsGUI extends JFrame {
                         fileOutputStream.write(temp);
                         fileOutputStream.close();
                         String path = consultation.getFileDestination().getPath();
-                        new PatientDetailsGUI(path, patient.get_id());
+                        Encryption encryption = new Encryption();
+                        String name = encryption.Decrypt(consultation.getChars(), consultation.getKey());
+                        new PatientDetailsGUI(path, patient.get_id(), name);
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Image not found!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
+                        JOptionPane.showMessageDialog(null, "No special Details to show on this patient!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
                     }
-                } catch (Exception e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a row!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
             }

@@ -3,7 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class PatientDetailsGUI extends JFrame {
-    PatientDetailsGUI(String imageSource, int id){
+    PatientDetailsGUI(String imageSource, int id, String note){
         final JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon("patientDetails.jpeg"));
         jLabel.setBounds(0, 0, 700, 750);
@@ -45,6 +45,7 @@ public class PatientDetailsGUI extends JFrame {
         textArea.setBackground(Color.WHITE);
         textArea.setOpaque(true);
         textArea.setEditable(false);
+        textArea.setText(note);
 
         JScrollPane textAreaScroll = new JScrollPane(textArea);
         textAreaScroll.setBounds(200, 300, 300, 100);

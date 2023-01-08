@@ -25,7 +25,9 @@ public class ConsultationGUI extends JFrame {
     private String gender, dob, pickedDate, filePath, fName, lName;
     private Date date, pickedDate1;
     private JComboBox comboForSpecialization, comboBoxForDocName, jComboBoxForTime;
-    private File destinationFile, sourceFile;;
+    private File destinationFile, sourceFile;
+    private char[] list;
+    private ArrayList<Character> key;
 
     ConsultationGUI() {
         JLabel patientDetails = new JLabel("Patient Details");
@@ -373,6 +375,10 @@ public class ConsultationGUI extends JFrame {
                     }
                     String time = (String) TimeSlot().getSelectedItem();
                     String notes = textAreaForNotes.getText();
+                    Encryption encryption = new Encryption();
+                    key = new ArrayList<>(encryption.Key());
+                    list = encryption.Encrypt(notes, key);
+
                     image = ImageEncryption();
                     int flag = 0;
 
@@ -387,7 +393,7 @@ public class ConsultationGUI extends JFrame {
                         yesOrNo = JOptionPane.showConfirmDialog(null, "Consultation Fee :- £25\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
                         if (yesOrNo == 0) {
                             String consultationFee = "£25";
-                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee, image, destinationFile);
+                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, consultationFee, image, destinationFile, list, key);
                             Patient patient = new Patient(fName, lName, date, mobile, gender);
                             patientList.add(patient);
                             consultationList.add(consultation);
@@ -397,7 +403,7 @@ public class ConsultationGUI extends JFrame {
                         yesOrNo = JOptionPane.showConfirmDialog(null, "Consultation Fee :- £15\nDo you want to book the consultation?", "Westminster Skin Consultation Manager", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
                         if (yesOrNo == 0) {
                             String consultationFee = "£15";
-                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, notes, consultationFee, image, destinationFile);
+                            Consultation consultation = new Consultation(doctorName, specialization, pickedDate1, time, consultationFee, image, destinationFile, list, key);
                             Patient patient = new Patient(fName, lName, date, mobile, gender);
                             patientList.add(patient);
                             consultationList.add(consultation);
