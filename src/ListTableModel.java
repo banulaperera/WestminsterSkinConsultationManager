@@ -28,7 +28,7 @@ class ListTableModel extends AbstractTableModel {
         }else if(columnIndex == 1){
             temp = docList.get(rowIndex).getName() + " " + docList.get(rowIndex).getSurname();
         }else if(columnIndex == 2){
-            temp = docList.get(rowIndex).getdOB();
+            temp = docList.get(rowIndex).getDOB();
         }else if(columnIndex == 3){
             temp = docList.get(rowIndex).getGender();
         }else if(columnIndex == 4){

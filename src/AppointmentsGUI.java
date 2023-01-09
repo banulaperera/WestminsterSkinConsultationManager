@@ -122,7 +122,7 @@ public class AppointmentsGUI extends JFrame {
                 Patient patient = ConsultationGUI.patientList.get(table.getSelectedRow());
                 byte[] bytes;
                 try {
-                    if (consultation.getFileDestination() != null || consultation.getChars() != null) {
+                    if (consultation.getFileDestination() != null) {
                         bytes = consultation.getBytes();
                         byte[] temp = new byte[bytes.length];
 

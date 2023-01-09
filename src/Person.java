@@ -8,6 +8,13 @@ public class Person implements Serializable {
     private String mobileNumber;
     private String gender;
 
+    Person(String name,String surname, Date birthDate, String mobileNumber, String gender){
+        this.name = name;
+        this.surname = surname;
+        this.dOB = birthDate;
+        this.mobileNumber = mobileNumber;
+        this.gender = gender;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -16,7 +23,7 @@ public class Person implements Serializable {
         this.surname = surname;
     }
 
-    public void setdOB(Date dOB) {
+    public void setDOB(Date dOB) {
         this.dOB = dOB;
     }
 
@@ -28,14 +35,6 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
-    Person(String name,String surname, Date birthDate, String mobileNumber, String gender){
-        this.name = name;
-        this.surname = surname;
-        this.dOB = birthDate;
-        this.mobileNumber = mobileNumber;
-        this.gender = gender;
-    }
-
     public String getName() {
         return name;
     }
@@ -44,7 +43,7 @@ public class Person implements Serializable {
         return surname;
     }
 
-    public Date getdOB() {
+    public Date getDOB() {
         return dOB;
     }
 

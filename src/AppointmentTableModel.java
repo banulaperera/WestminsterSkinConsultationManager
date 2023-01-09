@@ -33,7 +33,7 @@ public class AppointmentTableModel extends AbstractTableModel {
         } else if (columnIndex == 2) {
             temp = patientList.get(rowIndex).getSurname();
         }else if (columnIndex == 3) {
-            temp = patientList.get(rowIndex).getdOB();
+            temp = patientList.get(rowIndex).getDOB();
         } else if (columnIndex == 4) {
             temp = patientList.get(rowIndex).getGender();
         } else if (columnIndex == 5) {
@@ -65,7 +65,7 @@ public class AppointmentTableModel extends AbstractTableModel {
         } else if (2 == columnIndex) {
             row.setSurname((String) aValue);
         } else if (3 == columnIndex) {
-            row.setdOB((Date) aValue);
+            row.setDOB((Date) aValue);
         } else if (4 == columnIndex) {
             row.setGender((String) aValue);
         }  else if (5 == columnIndex) {

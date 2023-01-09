@@ -150,7 +150,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
                 Collections.sort(sortedArrayList);
                 for (Doctor doc:
                         sortedArrayList) {
-                    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %s\n", doc.getName(), doc.getSurname(), doc.getGender(), dateFormat.format(doc.getdOB()), doc.getMobileNumber(), doc.getMedicalLicenseNumber(), doc.getSpecialization());
+                    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %s\n", doc.getName(), doc.getSurname(), doc.getGender(), dateFormat.format(doc.getDOB()), doc.getMobileNumber(), doc.getMedicalLicenseNumber(), doc.getSpecialization());
                 }
             }
             System.out.println("\n                                                      ***");
