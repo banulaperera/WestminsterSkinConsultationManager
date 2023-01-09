@@ -12,7 +12,7 @@ public class Encryption {
         aChar = ' ';
     }
 
-    public ArrayList<Character> Key() {
+    public ArrayList<Character> key() {
         aChar = ' ';
         list.clear();
         shuffleList.clear();
@@ -26,7 +26,7 @@ public class Encryption {
         return shuffleList;
     }
 
-    public char[] Encrypt(String note, ArrayList<Character> key) {
+    public char[] encrypt(String note, ArrayList<Character> key) {
         char[] letters = note.toCharArray();
         for (int i = 0; i < letters.length; i++) {
             for (int j = 0; j < list.size(); j++) {
@@ -39,7 +39,7 @@ public class Encryption {
         return letters;
     }
 
-    public String Decrypt(char[] encryptedList, ArrayList<Character> key) {
+    public String decrypt(char[] encryptedList, ArrayList<Character> key) {
         char[] letters;
         letters = encryptedList;
         aChar = ' ';

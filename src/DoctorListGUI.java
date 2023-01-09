@@ -15,18 +15,18 @@ public class DoctorListGUI extends JFrame {
         this.setResizable(false);
         this.setLayout(null);
         this.setVisible(true);
-        this.add(LeftPanel(imageL));
-        this.add(UpperPanel());
-        this.add(BottomPanel(imageB));
-        this.add(RightPanel(imageR));
-        this.add(ScrollPane());
+        this.add(leftPanel(imageL));
+        this.add(upperPanel());
+        this.add(bottomPanel(imageB));
+        this.add(rightPanel(imageR));
+        this.add(scrollPane());
     }
 
     /**
      * Codes that contains the upper panel
      * @return JPanel
      */
-    private JPanel UpperPanel(){
+    private JPanel upperPanel(){
         final JPanel upperPanel;
         final JLabel upperLabel;
 
@@ -37,7 +37,7 @@ public class DoctorListGUI extends JFrame {
             if (e.getSource() == backToHomeBtn){
                 backToHomeBtn.setBackground(new Color(224, 213, 247));
                 this.dispose();
-                new HomePageGUI();
+                new homePageGUI();
             }
         });
 
@@ -62,7 +62,7 @@ public class DoctorListGUI extends JFrame {
      * Codes that contains the right panel
      * @return JPanel
      */
-    private JPanel RightPanel(ImageIcon image){
+    private JPanel rightPanel(ImageIcon image){
         JPanel rightSidePanel;
         JLabel rightLabel;
 
@@ -79,7 +79,7 @@ public class DoctorListGUI extends JFrame {
      * Codes that contain the Left panel
      * @return JPanel
      */
-    private JPanel LeftPanel(ImageIcon image){
+    private JPanel leftPanel(ImageIcon image){
         JPanel leftSidePanel;
         JLabel leftLabel;
 
@@ -96,7 +96,7 @@ public class DoctorListGUI extends JFrame {
      * Codes that contain bottom panel
      * @return JPanel
      */
-    private JPanel BottomPanel(ImageIcon image){
+    private JPanel bottomPanel(ImageIcon image){
         JPanel bottomPanel;
         JLabel bottomLabel;
 
@@ -118,7 +118,7 @@ public class DoctorListGUI extends JFrame {
      * Codes that contain
      * @return JScrollPane
      */
-    private JScrollPane ScrollPane(){
+    private JScrollPane scrollPane(){
         final JScrollPane scrollPane;
         //Creating an object of custom table model class
         ListTableModel model = new ListTableModel(WestminsterSkinConsultationManager.list);

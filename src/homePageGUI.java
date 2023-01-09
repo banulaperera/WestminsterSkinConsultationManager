@@ -2,10 +2,10 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class HomePageGUI extends JFrame {
+public class homePageGUI extends JFrame {
     private final JButton button1;
 
-    public HomePageGUI(){
+    public homePageGUI(){
         //Adding background image to the frame
         JLabel background = new JLabel(new ImageIcon("background.jpeg"));
         background.setBounds(0,0,1440,772);

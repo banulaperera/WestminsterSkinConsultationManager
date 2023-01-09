@@ -9,10 +9,9 @@ import java.util.Scanner;
 public class WestminsterSkinConsultationManager implements  SkinConsultationManager {
     public static ArrayList<Doctor> list = new ArrayList<>(10);
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private static final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public void AddNewDoc() {
+    public void addNewDoc(Scanner scanner) {
         String choice = "";
         do {
             try{
@@ -53,7 +52,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
                     String medNumber = scanner.next();
 
                     System.out.println("Select the specialization from the below:");
-                    System.out.println("1. Cosmetic dermatology\n2. Medical dermatology,\n3. Paediatric dermatology\n4. Other");
+                    System.out.println("1. Cosmetic dermatology\n2. Medical dermatology\n3. Paediatric dermatology\n4. Other");
                     int num = scanner.nextInt();
                     String specialization = "";
                     if (num == 1){
@@ -95,7 +94,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
     }
 
     @Override
-    public void DeleteDoc() {
+    public void deleteDoc(Scanner scanner) {
         try{
             System.out.println("======================================================================================================================");
             System.out.println("|" + "                                                  Delete a doctor                                                   " + "|");
@@ -106,13 +105,14 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
 
             if (!(list.isEmpty())){
                 for (Doctor doctor:list) {
-                    if (medicalLicence.equals(doctor.get_medicalLicenseNumber())) {
-                        System.out.println("Do you want to delete doctor " + doctor.get_name() + " from the center?(Y/N)");
+                    if (medicalLicence.equals(doctor.getMedicalLicenseNumber())) {
+                        System.out.println("Do you want to delete doctor " + doctor.getName() + " from the center?(Y/N)");
                         String ans = scanner.next();
 
                         if (ans.equalsIgnoreCase("y")) {
+                            System.out.println("Doctor deleted successfully!\n");
+                            System.out.println(doctor);
                             list.remove(doctor);
-                            System.out.println("Doctor deleted successfully!");
                         } else {
                             System.out.println("Returning to the main menu.......");
                         }
@@ -129,7 +129,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
     }
 
     @Override
-    public void PrintListOfDoc() {
+    public void printListOfDoc() {
         try{
             System.out.println("======================================================================================================================");
             System.out.println("|" + "                                                   List of Doctors                                                  " + "|");
@@ -150,7 +150,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
                 Collections.sort(sortedArrayList);
                 for (Doctor doc:
                         sortedArrayList) {
-                    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %s\n", doc.get_name(), doc.get_surname(), doc.get_gender(), dateFormat.format(doc.get_dOB()), doc.get_mobileNumber(), doc.get_medicalLicenseNumber(), doc.get_specialization());
+                    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %s\n", doc.getName(), doc.getSurname(), doc.getGender(), dateFormat.format(doc.getdOB()), doc.getMobileNumber(), doc.getMedicalLicenseNumber(), doc.getSpecialization());
                 }
             }
             System.out.println("\n                                                      ***");
@@ -161,7 +161,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
     }
 
     @Override
-    public void SaveInFile() {
+    public void saveInFile() {
         try {
             FileOutputStream fo = new FileOutputStream("filename.txt");
             ObjectOutputStream oos = new ObjectOutputStream(fo);
@@ -180,7 +180,7 @@ public class WestminsterSkinConsultationManager implements  SkinConsultationMana
     }
 
     @Override
-    public void LoadFromFile(ArrayList<Doctor> list){
+    public void loadFromFile(){
         try{
             FileInputStream fis = new FileInputStream("filename.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);

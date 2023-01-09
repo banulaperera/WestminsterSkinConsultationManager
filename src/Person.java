@@ -2,59 +2,66 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Person implements Serializable {
-    private String _name;
-    private String _surname;
-    private Date _dOB;
-    private String _mobileNumber;
-    private String _gender;
+    private String name;
+    private String surname;
+    private Date dOB;
+    private String mobileNumber;
+    private String gender;
 
-    public void set_name(String _name) {
-        this._name = _name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void set_surname(String _surname) {
-        this._surname = _surname;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public void set_dOB(Date _dOB) {
-        this._dOB = _dOB;
+    public void setdOB(Date dOB) {
+        this.dOB = dOB;
     }
 
-    public void set_mobileNumber(String _mobileNumber) {
-        this._mobileNumber = _mobileNumber;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
-    public void set_gender(String _gender) {
-        this._gender = _gender;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
-
-    Person(){ }
 
     Person(String name,String surname, Date birthDate, String mobileNumber, String gender){
-        this._name = name;
-        this._surname = surname;
-        this._dOB = birthDate;
-        this._mobileNumber = mobileNumber;
-        this._gender = gender;
+        this.name = name;
+        this.surname = surname;
+        this.dOB = birthDate;
+        this.mobileNumber = mobileNumber;
+        this.gender = gender;
     }
 
-    public String get_name() {
-        return _name;
+    public String getName() {
+        return name;
     }
 
-    public String get_surname() {
-        return _surname;
+    public String getSurname() {
+        return surname;
     }
 
-    public Date get_dOB() {
-        return _dOB;
+    public Date getdOB() {
+        return dOB;
     }
 
-    public String get_mobileNumber() {
-        return _mobileNumber;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public String get_gender(){
-        return _gender;
+    public String getGender(){
+        return gender;
+    }
+
+    @Override
+    public String toString() {
+        return  "Name                   = " + name + '\n' +
+                "Surname                = " + surname + '\n' +
+                "Date of Birth          = " + WestminsterSkinConsultationManager.dateFormat.format(dOB) + '\n' +
+                "Mobile Number          = " + mobileNumber + '\n' +
+                "Gender                 = " + gender + '\n';
     }
 }

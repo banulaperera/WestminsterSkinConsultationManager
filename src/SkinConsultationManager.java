@@ -1,10 +1,10 @@
-import java.util.ArrayList;
+import java.util.Scanner;
 
 public interface SkinConsultationManager {
-    void AddNewDoc();
-    void DeleteDoc();
-    void PrintListOfDoc();
-    void SaveInFile();
-    void LoadFromFile(ArrayList<Doctor> list);
+    void addNewDoc(Scanner scanner);
+    void deleteDoc(Scanner scanner);
+    void printListOfDoc();
+    void saveInFile();
+    void loadFromFile();
 
 }

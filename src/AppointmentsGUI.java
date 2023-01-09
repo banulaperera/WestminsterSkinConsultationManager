@@ -12,14 +12,14 @@ public class AppointmentsGUI extends JFrame {
         this.setResizable(false);
         this.setLayout(null);
         this.setVisible(true);
-        this.add(Table());
-        this.add(UpperPanel());
-        this.add(LeftPanel());
-        this.add(DownPanel());
-        this.add(RightPanel());
+        this.add(table());
+        this.add(upperPanel());
+        this.add(leftPanel());
+        this.add(downPanel());
+        this.add(rightPanel());
     }
 
-    private JPanel UpperPanel() {
+    private JPanel upperPanel() {
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon("AppointmentU.jpeg"));
         jLabel.setBounds(0, 0, 1300, 85);
@@ -35,7 +35,7 @@ public class AppointmentsGUI extends JFrame {
         return jPanel;
     }
 
-    private JPanel LeftPanel() {
+    private JPanel leftPanel() {
         JLabel jLabel = new JLabel();
         jLabel.setBounds(0, 0, 60, 683);
         jLabel.setIcon(new ImageIcon("AppointmentL.jpeg"));
@@ -46,7 +46,7 @@ public class AppointmentsGUI extends JFrame {
         return jPanel;
     }
 
-    private JPanel RightPanel() {
+    private JPanel rightPanel() {
         JLabel jLabel = new JLabel();
         jLabel.setBounds(0, 0, 70, 500);
         jLabel.setIcon(new ImageIcon("AppointmentR.jpeg"));
@@ -57,7 +57,7 @@ public class AppointmentsGUI extends JFrame {
         return jPanel;
     }
 
-    private JPanel DownPanel() {
+    private JPanel downPanel() {
         JLabel jLabel = new JLabel();
         jLabel.setBounds(0, 0, 1300, 85);
         jLabel.setIcon(new ImageIcon("AppointmentB.jpeg"));
@@ -68,7 +68,7 @@ public class AppointmentsGUI extends JFrame {
         return jPanel;
     }
 
-    private JScrollPane Table() {
+    private JScrollPane table() {
         AppointmentTableModel appointmentTableModel = new AppointmentTableModel(ConsultationGUI.patientList, ConsultationGUI.consultationList);
 
         JTable table = new JTable(appointmentTableModel);
@@ -104,7 +104,7 @@ public class AppointmentsGUI extends JFrame {
                 int yesOrNo = JOptionPane.showConfirmDialog(null, "Do you want to delete the Consultation?", "CONFIRM", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Question.png"));
                 if (yesOrNo == 0) {
                     appointmentTableModel.deleteRow(table.getSelectedRow());
-                    ConsultationGUI.SaveInFile();
+                    ConsultationGUI.saveInFile();
                     JOptionPane.showMessageDialog(null, "Deleted Successfully!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("confirm.png"));
                 }
 
@@ -114,7 +114,7 @@ public class AppointmentsGUI extends JFrame {
         });
 
         JMenuItem image = new JMenuItem("Additional Details");
-        image.setIcon(new ImageIcon("image.png"));
+        image.setIcon(new ImageIcon("list.png"));
         image.setIconTextGap(20);
         image.addActionListener(ae -> {
             if (table.getSelectedRow() != -1) {
@@ -134,8 +134,8 @@ public class AppointmentsGUI extends JFrame {
                         fileOutputStream.close();
                         String path = consultation.getFileDestination().getPath();
                         Encryption encryption = new Encryption();
-                        String name = encryption.Decrypt(consultation.getChars(), consultation.getKey());
-                        new PatientDetailsGUI(path, patient.get_id(), name);
+                        String name = encryption.decrypt(consultation.getChars(), consultation.getKey());
+                        new PatientDetailsGUI(path, patient.getId(), name);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "No special Details to show on this patient!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));

@@ -11,8 +11,8 @@ public class Main {
         WestminsterSkinConsultationManager west = new WestminsterSkinConsultationManager();
 
         //Initially load all the data from the file
-        west.LoadFromFile(WestminsterSkinConsultationManager.list);
-        ConsultationGUI.LoadFromFile(ConsultationGUI.patientList, ConsultationGUI.consultationList);
+        west.loadFromFile();
+        ConsultationGUI.loadFromFile(ConsultationGUI.patientList, ConsultationGUI.consultationList);
 
         System.out.println("\n                                      Welcome to Westminster Skin Consultation Manager :)");
 
@@ -46,10 +46,10 @@ public class Main {
                         String choice = scanner.next().toUpperCase();
 
                         switch (choice) {
-                            case "A" -> west.AddNewDoc();
-                            case "D" -> west.DeleteDoc();
-                            case "P" -> west.PrintListOfDoc();
-                            case "S" -> west.SaveInFile();
+                            case "A" -> west.addNewDoc(scanner);
+                            case "D" -> west.deleteDoc(scanner);
+                            case "P" -> west.printListOfDoc();
+                            case "S" -> west.saveInFile();
                             case "G" -> EventQueue.invokeLater(() -> {
                                 try {
                                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -57,7 +57,7 @@ public class Main {
                                          UnsupportedLookAndFeelException e) {
                                     throw new RuntimeException(e);
                                 }
-                                new HomePageGUI();
+                                new homePageGUI();
                             });
                             case "Q" -> {
                                 System.out.println("Returning to the User Menu........");
@@ -86,7 +86,7 @@ public class Main {
                                      UnsupportedLookAndFeelException e) {
                                 throw new RuntimeException(e);
                             }
-                            new HomePageGUI();
+                            new homePageGUI();
                         });
                         case "Q" -> System.out.println("Returning to the User Menu........");
                         default -> {

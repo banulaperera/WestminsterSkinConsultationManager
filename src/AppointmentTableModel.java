@@ -27,27 +27,27 @@ public class AppointmentTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object temp = null;
         if (columnIndex == 0) {
-            temp = patientList.get(rowIndex).get_id();
+            temp = patientList.get(rowIndex).getId();
         } else if (columnIndex == 1) {
-            temp = patientList.get(rowIndex).get_name();
+            temp = patientList.get(rowIndex).getName();
         } else if (columnIndex == 2) {
-            temp = patientList.get(rowIndex).get_surname();
+            temp = patientList.get(rowIndex).getSurname();
         }else if (columnIndex == 3) {
-            temp = patientList.get(rowIndex).get_dOB();
+            temp = patientList.get(rowIndex).getdOB();
         } else if (columnIndex == 4) {
-            temp = patientList.get(rowIndex).get_gender();
+            temp = patientList.get(rowIndex).getGender();
         } else if (columnIndex == 5) {
-            temp = patientList.get(rowIndex).get_mobileNumber();
+            temp = patientList.get(rowIndex).getMobileNumber();
         } else if (columnIndex == 6) {
             temp = consultationList.get(rowIndex).getDoctorName();
         } else if (columnIndex == 7) {
-            temp = consultationList.get(rowIndex).get_specialization();
+            temp = consultationList.get(rowIndex).getSpecializationOfTheDoctor();
         } else if (columnIndex == 8) {
-            temp = consultationList.get(rowIndex).get_date();
+            temp = consultationList.get(rowIndex).getDate();
         } else if (columnIndex == 9) {
-            temp = consultationList.get(rowIndex).get_timeSlot();
+            temp = consultationList.get(rowIndex).getTimeSlot();
         } else if (columnIndex == 10) {
-            temp = consultationList.get(rowIndex).get_cost();
+            temp = consultationList.get(rowIndex).getCost();
         }
         return temp;
     }
@@ -61,15 +61,15 @@ public class AppointmentTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Patient row = ConsultationGUI.patientList.get(rowIndex);
         if (1 == columnIndex) {
-            row.set_name((String) aValue);
+            row.setName((String) aValue);
         } else if (2 == columnIndex) {
-            row.set_surname((String) aValue);
+            row.setSurname((String) aValue);
         } else if (3 == columnIndex) {
-            row.set_dOB((Date) aValue);
+            row.setdOB((Date) aValue);
         } else if (4 == columnIndex) {
-            row.set_gender((String) aValue);
+            row.setGender((String) aValue);
         }  else if (5 == columnIndex) {
-            row.set_mobileNumber((String) aValue);
+            row.setMobileNumber((String) aValue);
         } else if (6 == columnIndex) {
             JOptionPane.showMessageDialog(null, "You can't change the values in this field!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("forbidden.png"));
         } else if (7 == columnIndex) {
@@ -81,7 +81,7 @@ public class AppointmentTableModel extends AbstractTableModel {
         }else if (10 == columnIndex) {
             JOptionPane.showMessageDialog(null, "You can't change the values in this field!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("forbidden.png"));
         }
-        ConsultationGUI.SaveInFile();
+        ConsultationGUI.saveInFile();
     }
 
     public String getColumnName(int col) {

@@ -1,31 +1,32 @@
 import java.util.Date;
 
 public class Doctor extends Person implements Comparable<Doctor>{
-    private String _medicalLicenseNumber;
-    private String _specialization;
+    private final String medicalLicenseNumber;
+    private final String specialization;
 
     public Doctor(String name, String surname, Date birthDate, String mobileNumber, String gender, String medicalLicenseNumber, String specialization) {
         super(name, surname, birthDate, mobileNumber, gender);
-        this._medicalLicenseNumber = medicalLicenseNumber;
-        this._specialization = specialization;
+        this.medicalLicenseNumber = medicalLicenseNumber;
+        this.specialization = specialization;
     }
 
-    public Doctor(){}
-
-    public String get_medicalLicenseNumber() {
-        return _medicalLicenseNumber;
+    public String getMedicalLicenseNumber() {
+        return medicalLicenseNumber;
     }
 
-    public String get_specialization() {
-        return _specialization;
-    }
-
-    public void set_specialization(String _specialization) {
-        this._specialization = _specialization;
+    public String getSpecialization() {
+        return specialization;
     }
 
     @Override
-    public int compareTo(Doctor o) {
-        return this.get_surname().compareToIgnoreCase(o.get_surname());
+    public int compareTo(Doctor doctor) {
+        return this.getSurname().compareToIgnoreCase(doctor.getSurname());
+    }
+
+    @Override
+    public String toString() {
+        return  super.toString() +
+                "Medical License Number = " + medicalLicenseNumber + '\n' +
+                "Specialisation         = " + specialization + '\n';
     }
 }

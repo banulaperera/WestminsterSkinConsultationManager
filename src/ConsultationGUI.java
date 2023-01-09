@@ -61,7 +61,7 @@ public class ConsultationGUI extends JFrame {
         JButton calenderBtn = new JButton();
         calenderBtn.setBounds(945, 230, 50, 40);
         calenderBtn.setIcon(new ImageIcon("calendar.png"));
-        calenderBtn.addActionListener(ae -> labelFieldForDOB.setText(new DatePicker(this).setPickedDate()));
+        calenderBtn.addActionListener(ae -> labelFieldForDOB.setText(new datePicker(this).setPickedDate()));
 
         JLabel forDOB = new JLabel("Date Of Birth");
         forDOB.setBounds(640, 230, 150, 35);
@@ -127,7 +127,7 @@ public class ConsultationGUI extends JFrame {
         JButton calenderBtn2 = new JButton();
         calenderBtn2.setBounds(945, 510, 50, 40);
         calenderBtn2.setIcon(new ImageIcon("calendar.png"));
-        calenderBtn2.addActionListener(ae -> labelForDate.setText(new DatePicker(this).setPickedDate()));
+        calenderBtn2.addActionListener(ae -> labelForDate.setText(new datePicker(this).setPickedDate()));
 
         JLabel labelForDuration = new JLabel("Time Slot");
         labelForDuration.setBounds(1040, 510, 150, 35);
@@ -161,8 +161,8 @@ public class ConsultationGUI extends JFrame {
         this.setResizable(false);
         this.setLayout(null);
         this.setVisible(true);
-        this.add(LeftPanel());
-        this.add(RightUpperPanel());
+        this.add(leftPanel());
+        this.add(rightUpperPanel());
         this.add(textFieldForFName);
         this.add(patientDetails);
         this.add(forFirstName);
@@ -176,7 +176,7 @@ public class ConsultationGUI extends JFrame {
         this.add(jSeparator);
         this.add(addConsultation);
         this.add(selectDocLabel);
-        this.add(DoctorNames());
+        this.add(doctorNames());
         this.add(labelForSpec);
         this.add(forDate);
         this.add(labelForDate);
@@ -186,18 +186,18 @@ public class ConsultationGUI extends JFrame {
         this.add(textAreaScroll);
         this.add(labelForImg);
         this.add(fileChooser);
-        this.add(Book());
-        this.add(ResetButton());
-        this.add(ListOfAppointments());
-        this.add(RightDownPanel());
+        this.add(book());
+        this.add(resetButton());
+        this.add(listOfAppointments());
+        this.add(rightDownPanel());
         this.add(gender);
         this.add(male);
         this.add(female);
-        this.add(DoctorSpecialization());
-        this.add(TimeSlot());
+        this.add(doctorSpecialization());
+        this.add(timeSlot());
     }
 
-    public static void SaveInFile() {
+    public static void saveInFile() {
         try {
             FileOutputStream fo = new FileOutputStream("PatientList.txt");
             ObjectOutputStream oos = new ObjectOutputStream(fo);
@@ -222,7 +222,7 @@ public class ConsultationGUI extends JFrame {
         }
     }
 
-    public static void LoadFromFile(ArrayList<Patient> listOfPatients, ArrayList<Consultation> listOfConsultation) {
+    public static void loadFromFile(ArrayList<Patient> listOfPatients, ArrayList<Consultation> listOfConsultation) {
         try {
             FileInputStream fis = new FileInputStream("PatientList.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -248,7 +248,7 @@ public class ConsultationGUI extends JFrame {
         }
     }
 
-    private JPanel LeftPanel() {
+    private JPanel leftPanel() {
         final JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon("Consultation.jpeg"));
         jLabel.setBounds(0, 0, 600, 800);
@@ -264,7 +264,7 @@ public class ConsultationGUI extends JFrame {
         return jPanel;
     }
 
-    private JPanel RightUpperPanel() {
+    private JPanel rightUpperPanel() {
         backToHomeBtn = new JButton();
         backToHomeBtn.setBounds(700, 5, 100, 50);
         backToHomeBtn.setIcon(new ImageIcon("HomeIcon.png"));
@@ -272,7 +272,7 @@ public class ConsultationGUI extends JFrame {
             if (e.getSource() == backToHomeBtn) {
                 backToHomeBtn.setBackground(new Color(224, 213, 247));
                 this.dispose();
-                new HomePageGUI();
+                new homePageGUI();
             }
         });
         JLabel label = new JLabel("Book a Consultation");
@@ -292,19 +292,19 @@ public class ConsultationGUI extends JFrame {
         return jPanel;
     }
 
-    private JComboBox DoctorNames() {
+    private JComboBox doctorNames() {
         comboBoxForDocName = new JComboBox(docNames);
         comboBoxForDocName.setBounds(1190, 423, 200, 50);
         comboBoxForDocName.setFont(new Font("Arial", Font.PLAIN, 15));
         return comboBoxForDocName;
     }
 
-    private JComboBox DoctorSpecialization() {
+    private JComboBox doctorSpecialization() {
         int count = WestminsterSkinConsultationManager.list.size();
         String[] specialization = new String[count];
         int iteration = 0;
         for (Doctor doc : WestminsterSkinConsultationManager.list) {
-            specialization[iteration] = doc.get_specialization();
+            specialization[iteration] = doc.getSpecialization();
             iteration++;
         }
 
@@ -332,8 +332,8 @@ public class ConsultationGUI extends JFrame {
             if (ae.getSource() == comboForSpecialization) {
                 docNames.removeAllElements();
                 for (Doctor doctor : WestminsterSkinConsultationManager.list) {
-                    if (doctor.get_specialization().equals(comboForSpecialization.getSelectedItem())) {
-                        docNames.addElement(doctor.get_name() + " " + doctor.get_surname());
+                    if (doctor.getSpecialization().equals(comboForSpecialization.getSelectedItem())) {
+                        docNames.addElement(doctor.getName() + " " + doctor.getSurname());
                     }
                 }
             }
@@ -341,7 +341,7 @@ public class ConsultationGUI extends JFrame {
         return comboForSpecialization;
     }
 
-    private JButton Book() {
+    private JButton book() {
         JButton book = new JButton("Book Now");
         book.setBounds(1250, 705, 150, 35);
         book.setFont(new Font("MV Boli", Font.BOLD, 12));
@@ -365,25 +365,25 @@ public class ConsultationGUI extends JFrame {
                     } else {
                         gender = "Female";
                     }
-                    String specialization = (String) DoctorSpecialization().getSelectedItem();
-                    String doctorName = (String) DoctorNames().getSelectedItem();
+                    String specialization = (String) doctorSpecialization().getSelectedItem();
+                    String doctorName = (String) doctorNames().getSelectedItem();
                     try {
                         pickedDate = labelForDate.getText();
                         pickedDate1 = WestminsterSkinConsultationManager.dateFormat.parse(pickedDate);
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
-                    String time = (String) TimeSlot().getSelectedItem();
+                    String time = (String) timeSlot().getSelectedItem();
                     String notes = textAreaForNotes.getText();
                     Encryption encryption = new Encryption();
-                    key = new ArrayList<>(encryption.Key());
-                    list = encryption.Encrypt(notes, key);
+                    key = new ArrayList<>(encryption.key());
+                    list = encryption.encrypt(notes, key);
 
-                    image = ImageEncryption();
+                    image = imageEncryption();
                     int flag = 0;
 
                     for (Patient patient : patientList) {
-                        if (fName.equalsIgnoreCase(patient.get_name()) && lName.equalsIgnoreCase(patient.get_surname())) {
+                        if (fName.equalsIgnoreCase(patient.getName()) && lName.equalsIgnoreCase(patient.getSurname())) {
                             flag = 1;
                             break;
                         }
@@ -413,8 +413,8 @@ public class ConsultationGUI extends JFrame {
                     if (yesOrNo == 1) {
                         JOptionPane.showMessageDialog(null, "Cancelled!", "ALERT!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("cross.png"));
                     }
-                    SaveInFile();
-                    Reset();
+                    saveInFile();
+                    reset();
                 } else {
                     JOptionPane.showMessageDialog(null, "Please fill all the fields!", "ALERT!", JOptionPane.WARNING_MESSAGE, new ImageIcon("AlertIcon.png"));
                 }
@@ -423,7 +423,7 @@ public class ConsultationGUI extends JFrame {
         return book;
     }
 
-    private JComboBox TimeSlot() {
+    private JComboBox timeSlot() {
         timeSlotBoxModel.addElement("-- Select --");
         timeSlotBoxModel.addElement("8 a.m. - 9 a.m.");
         timeSlotBoxModel.addElement("9 a.m. - 10 a.m.");
@@ -447,7 +447,7 @@ public class ConsultationGUI extends JFrame {
                         ArrayList<String> specificDoctors = new ArrayList<>();
                         for (Consultation consultation : consultationList) {
                             try {
-                                if (Objects.equals(comboForSpecialization.getSelectedItem(), consultation.get_specialization()) && consultation.get_timeSlot().equals(jComboBoxForTime.getSelectedItem()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.get_date())) {
+                                if (Objects.equals(comboForSpecialization.getSelectedItem(), consultation.getSpecializationOfTheDoctor()) && consultation.getTimeSlot().equals(jComboBoxForTime.getSelectedItem()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.getDate())) {
                                     unAvailableDoc.add(consultation.getDoctorName());
                                 }
                             } catch (ParseException e) {
@@ -455,8 +455,8 @@ public class ConsultationGUI extends JFrame {
                             }
                         }
                         for (Doctor doctor : WestminsterSkinConsultationManager.list) {
-                            if (Objects.equals(comboForSpecialization.getSelectedItem(), doctor.get_specialization())) {
-                                specificDoctors.add(doctor.get_name() + " " + doctor.get_surname());
+                            if (Objects.equals(comboForSpecialization.getSelectedItem(), doctor.getSpecialization())) {
+                                specificDoctors.add(doctor.getName() + " " + doctor.getSurname());
                             }
                         }
                         ArrayList<String> temp = new ArrayList<>(specificDoctors);
@@ -487,7 +487,7 @@ public class ConsultationGUI extends JFrame {
     private boolean isDoctorAvailable() {
         for (Consultation consultation : consultationList) {
             try {
-                if (consultation.get_timeSlot().equals(jComboBoxForTime.getSelectedItem()) && Objects.equals(comboBoxForDocName.getSelectedItem(), consultation.getDoctorName()) && Objects.equals(comboForSpecialization.getSelectedItem(), consultation.get_specialization()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.get_date())) {
+                if (consultation.getTimeSlot().equals(jComboBoxForTime.getSelectedItem()) && Objects.equals(comboBoxForDocName.getSelectedItem(), consultation.getDoctorName()) && Objects.equals(comboForSpecialization.getSelectedItem(), consultation.getSpecializationOfTheDoctor()) && WestminsterSkinConsultationManager.dateFormat.parse(labelForDate.getText()).equals(consultation.getDate())) {
                     return false;
                 }
             } catch (ParseException e) {
@@ -497,14 +497,14 @@ public class ConsultationGUI extends JFrame {
         return true;
     }
 
-    private JPanel RightDownPanel() {
+    private JPanel rightDownPanel() {
         final JPanel jPanel = new JPanel();
         jPanel.setBounds(600, 760, 840, 20);
         jPanel.setBackground(new Color(123, 173, 244));
         return jPanel;
     }
 
-    private JButton ListOfAppointments() {
+    private JButton listOfAppointments() {
         JButton listOfAppointment = new JButton("List of Appointments");
         listOfAppointment.setBounds(640, 705, 200, 35);
         listOfAppointment.setFont(new Font("MV Boli", Font.BOLD, 12));
@@ -516,20 +516,20 @@ public class ConsultationGUI extends JFrame {
         return listOfAppointment;
     }
 
-    private JButton ResetButton() {
+    private JButton resetButton() {
         JButton reset = new JButton("Reset");
         reset.setBounds(1090, 705, 150, 35);
         reset.setFont(new Font("MV Boli", Font.BOLD, 12));
         reset.setForeground(Color.RED);
         reset.addActionListener(ae -> {
             if (ae.getSource() == reset) {
-                Reset();
+                reset();
             }
         });
         return reset;
     }
 
-    private void Reset() {
+    private void reset() {
         String def = "";
         textFieldForFName.setText(def);
         textFieldForSurname.setText(def);
@@ -538,10 +538,10 @@ public class ConsultationGUI extends JFrame {
         labelForDate.setText(def);
         textAreaForNotes.setText(def);
         specializationBoxModel.removeAllElements();
-        DoctorSpecialization();
-        DoctorNames();
+        doctorSpecialization();
+        doctorNames();
         timeSlotBoxModel.removeAllElements();
-        TimeSlot();
+        timeSlot();
         labelForDate.setText(def);
         textAreaForNotes.setText(def);
         sourceFile = null;
@@ -563,12 +563,12 @@ public class ConsultationGUI extends JFrame {
             if (value == JFileChooser.APPROVE_OPTION) {
                 File selectedImage = jFileChooser.getSelectedFile();
                 filePath = selectedImage.getAbsolutePath();
-                JOptionPane.showMessageDialog(null, filePath);
+                JOptionPane.showMessageDialog(null, filePath,"Saved", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("save_image.png"));
             }
         }
     }
 
-    private byte[] ImageEncryption() {
+    private byte[] imageEncryption() {
         //saving image
         try{
             String newPath = "/Users/banulaperera/IdeaProjects/CourseWork/ConsultationImages";
