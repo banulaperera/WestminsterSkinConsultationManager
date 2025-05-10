@@ -224,27 +224,54 @@ public class ConsultationGUI extends JFrame {
 
     public static void loadFromFile(ArrayList<Patient> listOfPatients, ArrayList<Consultation> listOfConsultation) {
         try {
-            FileInputStream fis = new FileInputStream("PatientList.txt");
-            ObjectInputStream ois = new ObjectInputStream(fis);
+            File patientFile = new File("PatientList.txt");
+            File consultationFile = new File("Consultation.txt");
 
-            FileInputStream fis1 = new FileInputStream("Consultation.txt");
-            ObjectInputStream ois1 = new ObjectInputStream(fis1);
-            while (true) {
+            // Create files if they don't exist
+            if (!patientFile.exists()) {
                 try {
-                    Patient patient = (Patient) ois.readObject();
-                    Consultation consultation = (Consultation) ois1.readObject();
-                    listOfPatients.add(patient);
-                    listOfConsultation.add(consultation);
-                } catch (Exception e) {
-                    break;
+                    patientFile.createNewFile();
+                    System.out.println("Created new PatientList.txt file");
+                } catch (IOException e) {
+                    System.err.println("Could not create PatientList.txt: " + e.getMessage());
+                    return;
                 }
             }
-            fis1.close();
-            ois1.close();
-            fis.close();
-            ois.close();
+
+            if (!consultationFile.exists()) {
+                try {
+                    consultationFile.createNewFile();
+                    System.out.println("Created new Consultation.txt file");
+                } catch (IOException e) {
+                    System.err.println("Could not create Consultation.txt: " + e.getMessage());
+                    return;
+                }
+            }
+
+            // Only try to read if the files have content
+            if (patientFile.length() > 0 && consultationFile.length() > 0) {
+                try (FileInputStream fis = new FileInputStream(patientFile);
+                     ObjectInputStream ois = new ObjectInputStream(fis);
+                     FileInputStream fis1 = new FileInputStream(consultationFile);
+                     ObjectInputStream ois1 = new ObjectInputStream(fis1)) {
+
+                    while (true) {
+                        try {
+                            Patient patient = (Patient) ois.readObject();
+                            Consultation consultation = (Consultation) ois1.readObject();
+                            listOfPatients.add(patient);
+                            listOfConsultation.add(consultation);
+                        } catch (EOFException e) {
+                            break; // End of file reached
+                        } catch (ClassNotFoundException e) {
+                            System.err.println("Error reading objects from file: " + e.getMessage());
+                            break;
+                        }
+                    }
+                }
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("Error accessing data files: " + e.getMessage());
         }
     }
 
