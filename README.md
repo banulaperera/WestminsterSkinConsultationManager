@@ -31,9 +31,26 @@
 
 ***
 
+The images have been included below for the screenshots section of your README.
+
+***
+
 ## Screenshots
 
-> Add screenshots of home page, booking window, doctor list table, etc. here for extra appeal.
+Explore the look and feel of Westminster Skin Consultation Manager.  
+These screenshots illustrate the transition from the command-line interface to the modern Swing-based graphical user interface.
+
+**CLI Main Menu**
+<img width="958" height="510" alt="Screenshot 2025-08-27 at 08 49 54" src="https://github.com/user-attachments/assets/da921343-69c0-48f4-b9c7-43e9a3f61ee5" />
+
+**Home Page – Modern GUI**
+<img width="1438" height="800" alt="Screenshot 2025-08-27 at 08 50 06" src="https://github.com/user-attachments/assets/7fafb4df-e620-4f46-a06a-18e53f4baad4" />
+
+**Doctor Information Table**
+<img width="1436" height="799" alt="Screenshot 2025-08-27 at 08 50 14" src="https://github.com/user-attachments/assets/ac638469-ca64-45cc-a8be-52e733f313d9" />
+
+**Book a Consultation**
+<img width="1441" height="800" alt="Screenshot 2025-08-27 at 08 50 26" src="https://github.com/user-attachments/assets/d9543569-ead7-458a-a666-1992724bffc3" />
 
 ***
 
@@ -62,7 +79,7 @@
 
 4. **Run the application**
    ```bash
-   java homePageGUI
+   java Main
    ```
 
 ***
@@ -85,14 +102,14 @@
 
 ## Coursework Statement
 
-> This application was developed as part of the **Undergraduate Software Engineering coursework** for [Your University Name]. The aim was to demonstrate practical object-oriented design, GUI development, and secure data management in a real-world healthcare scenario.
+> This application was developed as part of the **Undergraduate Software Engineering coursework** for University of Westminster. The aim was to demonstrate practical object-oriented design, GUI development, and secure data management in a real-world healthcare scenario.
 
 ***
 
 ## Credits
 
 - Developed by Banula Perera (2025)
-- Special thanks to [Your University Name] and the Software Engineering Faculty
+- Special thanks to University of Westminster and the Software Engineering Faculty
 
 ***
 
@@ -103,19 +120,3 @@ This project is for educational purposes. See [LICENSE](LICENSE) for more inform
 ***
 
 **Feel free to fork, star, or contribute to enhancements as a learning exercise!**
-
-***
-
-This README template should provide clarity, professionalism, and appeal for academic and open-source readers alike, and is tailored for a coursework submission context[8][6][5][4][10][3][1][7][9][2].
-
-Sources
-[1] DoctorListGUI.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/763cfbf0-e657-48e9-b48d-1b4f5ac2601d/DoctorListGUI.java
-[2] ListTableModel.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/a44db398-a272-42a1-aab3-6d918e18dd25/ListTableModel.java
-[3] Doctor.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/d89842e1-d463-4a05-8671-e8dcb1394ad4/Doctor.java
-[4] ConsultationGUI.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/1148a73c-b04e-473c-89b0-242c612eb514/ConsultationGUI.java
-[5] Consultation.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/d4983f12-93fe-4aa8-b28b-aa66fa6a022c/Consultation.java
-[6] AppointmentTableModel.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/3b40f29e-3795-4f96-8a19-cec678c20576/AppointmentTableModel.java
-[7] Encryption.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/24f1323d-e883-4839-a427-32d330d6dba2/Encryption.java
-[8] AppointmentsGUI.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/ba9e23fb-46c5-41ca-844b-bd2a16b0a975/AppointmentsGUI.java
-[9] homePageGUI.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/a09fc3dd-ace2-4e25-9fe8-cb966015dbdb/homePageGUI.java
-[10] datePicker.java https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/74757090/d33a73ac-4181-4b3e-9fa6-bd17758ee2d5/datePicker.java
